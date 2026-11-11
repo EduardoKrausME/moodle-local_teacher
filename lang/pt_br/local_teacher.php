@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined("MOODLE_INTERNAL") || die();
+defined('MOODLE_INTERNAL') || die();
 
 $string['allowcontact_desc'] = 'Permite que usuários autenticados escrevam aos professores usando a mensageria privada do Moodle, respeitando permissões e bloqueios.';
 $string['allowcontact'] = 'Ativar caixa de mensagens';
