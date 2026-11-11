@@ -13,9 +13,6 @@
                 <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
                 <KEY NAME="userid_fk" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
             </KEYS>
-            <INDEXES>
-                <INDEX NAME="userid_uix" UNIQUE="true" FIELDS="userid"/>
-            </INDEXES>
         </TABLE>
     </TABLES>
 </XMLDB>
