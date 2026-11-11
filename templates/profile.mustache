@@ -26,7 +26,7 @@
                         {{^editownprofile}}{{#str}}editteacherprofile, local_teacher{{/str}}{{/editownprofile}}
                     </a>
                     {{/canedit}}
-                    {{#cancontact}}<a class="btn btn-primary local-teacher-cv-action-primary" href="#local-teacher-contact">{{#str}}contactteacher, local_teacher{{/str}}</a>{{/cancontact}}
+                    {{#cancontact}}<button class="btn btn-primary local-teacher-cv-action-primary" type="button" data-action="local-teacher-contact-open" aria-haspopup="dialog">{{#str}}contactteacher, local_teacher{{/str}}</button>{{/cancontact}}
                     {{#haslinkedin}}<a class="btn btn-outline-primary local-teacher-cv-action-outline" href="{{linkedinurl}}" target="_blank" rel="noopener noreferrer"><span class="local-teacher-linkedin-icon" aria-hidden="true">in</span> {{#str}}viewlinkedin, local_teacher{{/str}}</a>{{/haslinkedin}}
                 </div>
             </div>
@@ -73,15 +73,18 @@
     </section>
 
     {{#cancontact}}
-    <section class="local-teacher-section local-teacher-contact local-teacher-cv-contact" id="local-teacher-contact">
-        <h2>{{#str}}contactteacher, local_teacher{{/str}}</h2>
-        <form method="post" action="{{contactaction}}">
+    {{! The template is inert until the contact button opens Moodle's native modal. }}
+    <template id="local-teacher-contact-template">
+        <form class="local-teacher-contact-form" method="post" action="{{contactaction}}">
             <input type="hidden" name="sesskey" value="{{sesskey}}">
             <input type="hidden" name="action" value="send">
             <label for="local-teacher-message">{{#str}}yourmessage, local_teacher{{/str}}</label>
-            <textarea class="form-control" id="local-teacher-message" name="message" rows="4" minlength="1" maxlength="2000" required></textarea>
-            <button class="btn btn-primary" type="submit">{{#str}}sendmessage, local_teacher{{/str}}</button>
+            <textarea class="form-control" id="local-teacher-message" name="message" rows="5" minlength="1" maxlength="2000" required></textarea>
+            <div class="local-teacher-contact-buttons">
+                <button class="btn btn-secondary" type="button" data-action="local-teacher-contact-cancel">{{#str}}cancel, moodle{{/str}}</button>
+                <button class="btn btn-primary" type="submit">{{#str}}sendmessage, local_teacher{{/str}}</button>
+            </div>
         </form>
-    </section>
+    </template>
     {{/cancontact}}
 </div>

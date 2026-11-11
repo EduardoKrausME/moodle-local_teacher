@@ -148,6 +148,10 @@ $data = [
     "sesskey" => sesskey(),
 ];
 
+if ($cancontact) {
+    $PAGE->requires->js_call_amd("local_teacher/contact", "init");
+}
+
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template("local_teacher/profile", $data);
 echo $OUTPUT->footer();

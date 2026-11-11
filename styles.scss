@@ -515,3 +515,41 @@
 }
 @media (prefers-reduced-motion:reduce) {.local-teacher-card {transition:none}}
 }
+
+
+/* The form is rendered in a native Moodle modal, not in the profile footer. */
+.path-local-teacher .local-teacher-contact-modal .modal-dialog {
+    max-width: min(560px, calc(100vw - 1.5rem));
+}
+.path-local-teacher .local-teacher-contact-modal .modal-content {
+    color: var(--bs-ink, var(--bs-body-color, #15243a));
+    background: var(--bs-surface, var(--bs-body-bg, #fff));
+    border: 1px solid var(--bs-border, var(--bs-border-color, #e2e8f0));
+    border-radius: 1rem;
+}
+.path-local-teacher .local-teacher-contact-modal .modal-title {
+    font-weight: 750;
+}
+.path-local-teacher .local-teacher-contact-form label {
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: 650;
+}
+.path-local-teacher .local-teacher-contact-form textarea {
+    width: 100%;
+    min-height: 145px;
+    resize: vertical;
+    border-radius: .75rem;
+}
+.path-local-teacher .local-teacher-contact-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: .7rem;
+    flex-wrap: wrap;
+    margin-top: 1.15rem;
+}
+@media (max-width: 480px) {
+    .path-local-teacher .local-teacher-contact-buttons .btn {
+        flex: 1 1 auto;
+    }
+}
