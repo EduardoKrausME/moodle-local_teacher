@@ -24,6 +24,8 @@
 
 namespace local_teacher;
 
+use core_user\fields;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -139,7 +141,7 @@ final class directory {
     public static function get_teachers(string $search = "", int $page = 0, int $pagesize = 18): array {
         global $DB;
         [$conditions, $params] = self::conditions($search);
-        $names = get_all_user_name_fields(true, "u");
+        $names = fields::for_name()->get_sql('u', false, '', '', false)->selects;
         $sql = "SELECT DISTINCT u.id, u.picture, u.imagealt, $names
                   FROM {user} u
                   JOIN {role_assignments} ra ON ra.userid = u.id
@@ -212,7 +214,7 @@ final class directory {
      */
     public static function excluded(): array {
         global $DB;
-        $names = get_all_user_name_fields(true, "u");
+        $names = fields::for_name()->get_sql('u', false, '', '', false)->selects;
         $sql = "SELECT u.id, $names, e.timecreated
                   FROM {local_teacher_excluded} e
                   JOIN {user} u ON u.id = e.userid
