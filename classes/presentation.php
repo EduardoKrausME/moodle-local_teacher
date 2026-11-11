@@ -28,8 +28,6 @@ use moodle_url;
 use stdClass;
 use user_picture;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Teacher view models.
  */

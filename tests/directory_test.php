@@ -27,8 +27,6 @@ namespace local_teacher;
 use advanced_testcase;
 use context_course;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Tests for teacher directory eligibility and exclusions.
  *

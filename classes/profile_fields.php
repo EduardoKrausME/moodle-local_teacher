@@ -24,8 +24,6 @@
 
 namespace local_teacher;
 
-defined("MOODLE_INTERNAL") || die();
-
 /**
  * Create and read public curriculum data using Moodle's profile fields.
  */

@@ -24,8 +24,6 @@
 
 namespace local_teacher;
 
-defined("MOODLE_INTERNAL") || die();
-
 /**
  * @covers \local_teacher\profile_fields
  */

@@ -26,8 +26,6 @@ namespace local_teacher;
 
 use core_user\fields;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Query teachers by their direct course-level role assignments.
  */
