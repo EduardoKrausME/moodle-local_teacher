@@ -85,3 +85,6 @@ $string['sortby'] = 'Sort by';
 $string['sortza'] = 'Name (Z to A)';
 $string['teachescourses'] = 'Courses taught';
 $string['viewteacherprofile'] = 'View courses';
+
+$string['editmydata'] = 'Edit my details';
+$string['editteacherprofile'] = 'Edit teacher profile';

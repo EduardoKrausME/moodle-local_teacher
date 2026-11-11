@@ -62,6 +62,19 @@ $PAGE->set_context($context);
 $PAGE->set_pagelayout("standard");
 $PAGE->set_title(fullname($teacher));
 
+
+$isownprofile = isloggedin() && !isguestuser() && (int) $USER->id === $id;
+$isadministrator = is_siteadmin();
+$caneditown = $isownprofile
+    && has_capability("moodle/user:editownprofile", $context)
+    && get_auth_plugin($teacher->auth)->can_edit_profile();
+$canedit = $isadministrator || $caneditown;
+$editurl = "";
+if ($canedit) {
+    $editpath = $isadministrator ? "/user/editadvanced.php" : "/user/edit.php";
+    $editurl = (new moodle_url($editpath, ["id" => $id, "returnto" => "profile"]))->out(false);
+}
+
 $cancontact = directory::allows_contact() && isloggedin() && !isguestuser()
     && (int)$USER->id !== (int)$id
     && api::can_send_message($id, $USER->id);
@@ -127,6 +140,9 @@ $data = [
     "hascourses" => !empty($courseitems),
     "coursescards" => $courseitems,
     "cancontact" => $cancontact,
+    "canedit" => $canedit,
+    "editownprofile" => $isownprofile,
+    "editurl" => $editurl,
     "contactaction" => $url->out(false),
     "sesskey" => sesskey(),
 ];

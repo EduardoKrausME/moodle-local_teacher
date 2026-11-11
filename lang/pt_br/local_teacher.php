@@ -85,3 +85,6 @@ $string['sortby'] = 'Ordenar por';
 $string['sortza'] = 'Nome (Z a A)';
 $string['teachescourses'] = 'Cursos em que atua';
 $string['viewteacherprofile'] = 'Ver cursos';
+
+$string['editmydata'] = 'Editar meus dados';
+$string['editteacherprofile'] = 'Editar perfil do professor';
