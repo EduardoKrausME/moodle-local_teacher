@@ -28,7 +28,7 @@ use core\hook\navigation\primary_extend;
 use moodle_url;
 use navigation_node;
 
-defined("MOODLE_INTERNAL") || die();
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Callbacks for Moodle navigation hooks.

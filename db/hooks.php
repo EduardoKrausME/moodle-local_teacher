@@ -25,7 +25,7 @@
 use core\hook\navigation\primary_extend;
 use local_teacher\hook_callbacks;
 
-defined("MOODLE_INTERNAL") || die();
+defined('MOODLE_INTERNAL') || die();
 
 $callbacks = [
     [

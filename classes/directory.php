@@ -24,7 +24,7 @@
 
 namespace local_teacher;
 
-defined("MOODLE_INTERNAL") || die();
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Query teachers by their direct course-level role assignments.

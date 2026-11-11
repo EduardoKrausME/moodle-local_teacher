@@ -22,6 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:ignore moodle.Files.RequireLogin.Missing -- Guest access is optional and guarded by the plugin setting.
 require_once(__DIR__ . "/../../config.php");
 require_once($CFG->dirroot . "/message/lib.php");
 

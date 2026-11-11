@@ -67,7 +67,14 @@ jobs:
           echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
 
       - name: Install moodle-plugin-ci
-        run: moodle-plugin-ci install --plugin ./plugin --extra-plugins ./extra-plugins --db-host=127.0.0.1
+        run: |
+          # No extra plugins directory exists in this repository.
+          # Postgres uses its postgres role; MariaDB uses root in the CI service.
+          dbuser=root
+          if [ "$DB" = "pgsql" ]; then
+            dbuser=postgres
+          fi
+          moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1 --db-user="$dbuser"
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.config.moodle }}
