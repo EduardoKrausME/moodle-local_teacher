@@ -25,6 +25,8 @@
 require_once(__DIR__ . "/../../config.php");
 require_once($CFG->dirroot . "/message/lib.php");
 
+use core\output\notification;
+use core_message\api;
 use local_teacher\directory;
 use local_teacher\presentation;
 
@@ -51,12 +53,10 @@ $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_pagelayout("standard");
 $PAGE->set_title(fullname($teacher));
-$PAGE->set_heading(get_string("teachers", "local_teacher"));
-$PAGE->requires->css(new moodle_url("/local/teacher/styles.css"));
 
 $cancontact = directory::allows_contact() && isloggedin() && !isguestuser()
-    && (int) $USER->id !== (int) $id
-    && \core_message\api::can_send_message($id, $USER->id);
+    && (int)$USER->id !== (int)$id
+    && api::can_send_message($id, $USER->id);
 
 if (data_submitted() && optional_param("action", "", PARAM_ALPHA) === "send") {
     require_sesskey();
@@ -69,7 +69,7 @@ if (data_submitted() && optional_param("action", "", PARAM_ALPHA) === "send") {
         throw new moodle_exception("invalidmessage", "local_teacher");
     }
     if (!empty($SESSION->local_teacher_lastmessage) &&
-            $SESSION->local_teacher_lastmessage > time() - 30) {
+        $SESSION->local_teacher_lastmessage > time() - 30) {
         throw new moodle_exception("messageslowdown", "local_teacher");
     }
     $result = message_post_message($USER, $teacher, $message, FORMAT_PLAIN);
@@ -77,12 +77,12 @@ if (data_submitted() && optional_param("action", "", PARAM_ALPHA) === "send") {
         throw new moodle_exception("contactunavailable", "local_teacher");
     }
     $SESSION->local_teacher_lastmessage = time();
-    redirect($url, get_string("messagesent", "local_teacher"), null, \core\output\notification::NOTIFY_SUCCESS);
+    redirect($url, get_string("messagesent", "local_teacher"), null, notification::NOTIFY_SUCCESS);
 }
 
 $usercontext = context_user::instance($id);
 $bio = "";
-if (trim((string) $teacher->description) !== "") {
+if (trim((string)$teacher->description) !== "") {
     $description = file_rewrite_pluginfile_urls(
         $teacher->description,
         "pluginfile.php",

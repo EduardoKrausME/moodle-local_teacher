@@ -22,11 +22,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use core\hook\navigation\primary_extend;
+use local_teacher\hook_callbacks;
+
 defined("MOODLE_INTERNAL") || die();
 
 $callbacks = [
     [
-        "hook" => \core\hook\navigation\primary_extend::class,
-        "callback" => [\local_teacher\hook_callbacks::class, "primary_navigation"],
+        "hook" => primary_extend::class,
+        "callback" => [hook_callbacks::class, "primary_navigation"],
     ],
 ];

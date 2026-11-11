@@ -24,6 +24,7 @@
 
 require_once(__DIR__ . "/../../config.php");
 
+use core\output\notification;
 use local_teacher\directory;
 
 require_login();
@@ -44,7 +45,7 @@ if (data_submitted() && ($action === "exclude" || $action === "include")) {
         new moodle_url("/local/teacher/exclusions.php"),
         get_string("exclusionssaved", "local_teacher"),
         null,
-        \core\output\notification::NOTIFY_SUCCESS
+        notification::NOTIFY_SUCCESS
     );
 }
 
@@ -60,7 +61,6 @@ foreach (directory::excluded() as $user) {
     $excluded[] = ["id" => $user->id, "fullname" => fullname($user)];
 }
 
-$PAGE->requires->css(new moodle_url("/local/teacher/styles.css"));
 $data = [
     "heading" => get_string("exclusions", "local_teacher"),
     "instructions" => get_string("exclusionsdesc", "local_teacher"),

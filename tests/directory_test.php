@@ -24,6 +24,9 @@
 
 namespace local_teacher;
 
+use advanced_testcase;
+use context_course;
+
 defined("MOODLE_INTERNAL") || die();
 
 /**
@@ -31,7 +34,7 @@ defined("MOODLE_INTERNAL") || die();
  *
  * @covers \local_teacher\directory
  */
-final class directory_test extends \advanced_testcase {
+final class directory_test extends advanced_testcase {
     /**
      * Confirm direct role assignments discover active visible teachers.
      */
@@ -40,9 +43,9 @@ final class directory_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
         $teacher = $this->getDataGenerator()->create_user();
-        $roleid = (int) $DB->get_field("role", "id", ["shortname" => "editingteacher"], MUST_EXIST);
-        set_config("roleids", (string) $roleid, "local_teacher");
-        role_assign($roleid, $teacher->id, \context_course::instance($course->id)->id);
+        $roleid = (int)$DB->get_field("role", "id", ["shortname" => "editingteacher"], MUST_EXIST);
+        set_config("roleids", (string)$roleid, "local_teacher");
+        role_assign($roleid, $teacher->id, context_course::instance($course->id)->id);
         $this->assertNotNull(directory::get_teacher($teacher->id));
         $this->assertArrayHasKey($teacher->id, directory::get_teachers());
         $this->assertSame(1, directory::count());
@@ -56,9 +59,9 @@ final class directory_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
         $teacher = $this->getDataGenerator()->create_user();
-        $roleid = (int) $DB->get_field("role", "id", ["shortname" => "editingteacher"], MUST_EXIST);
-        set_config("roleids", (string) $roleid, "local_teacher");
-        role_assign($roleid, $teacher->id, \context_course::instance($course->id)->id);
+        $roleid = (int)$DB->get_field("role", "id", ["shortname" => "editingteacher"], MUST_EXIST);
+        set_config("roleids", (string)$roleid, "local_teacher");
+        role_assign($roleid, $teacher->id, context_course::instance($course->id)->id);
         directory::exclude($teacher->id);
         $this->assertNull(directory::get_teacher($teacher->id));
         $this->assertSame(0, directory::count());
@@ -74,9 +77,9 @@ final class directory_test extends \advanced_testcase {
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course(["visible" => 0]);
         $teacher = $this->getDataGenerator()->create_user();
-        $roleid = (int) $DB->get_field("role", "id", ["shortname" => "editingteacher"], MUST_EXIST);
-        set_config("roleids", (string) $roleid, "local_teacher");
-        role_assign($roleid, $teacher->id, \context_course::instance($course->id)->id);
+        $roleid = (int)$DB->get_field("role", "id", ["shortname" => "editingteacher"], MUST_EXIST);
+        set_config("roleids", (string)$roleid, "local_teacher");
+        role_assign($roleid, $teacher->id, context_course::instance($course->id)->id);
         $this->assertNull(directory::get_teacher($teacher->id));
         $DB->set_field("course", "visible", 1, ["id" => $course->id]);
         $DB->set_field("user", "suspended", 1, ["id" => $teacher->id]);

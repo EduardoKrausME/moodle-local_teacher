@@ -4,38 +4,39 @@
     <form action="{{searchaction}}" method="get" class="local-teacher-search">
         <label for="local-teacher-admin-search">{{searchlabel}}</label>
         <div class="local-teacher-search-row">
-            <input class="form-control" type="search" name="q" id="local-teacher-admin-search" value="{{search}}" maxlength="80">
+            <input class="form-control" type="search" name="q" id="local-teacher-admin-search" value="{{search}}"
+                   maxlength="80">
             <button class="btn btn-primary" type="submit">{{searchbutton}}</button>
         </div>
     </form>
     {{#haveresults}}
-    <ul class="local-teacher-admin-list">
-        {{#results}}
-        <li><span>{{fullname}} <small>#{{id}}</small></span>
-            <form method="post" action="{{postaction}}">
-                <input type="hidden" name="sesskey" value="{{sesskey}}">
-                <input type="hidden" name="action" value="exclude">
-                <input type="hidden" name="userid" value="{{id}}">
-                <button class="btn btn-outline-danger btn-sm" type="submit">{{excludelabel}}</button>
-            </form>
-        </li>
-        {{/results}}
-    </ul>
+        <ul class="local-teacher-admin-list">
+            {{#results}}
+                <li><span>{{fullname}} <small>#{{id}}</small></span>
+                    <form method="post" action="{{postaction}}">
+                        <input type="hidden" name="sesskey" value="{{sesskey}}">
+                        <input type="hidden" name="action" value="exclude">
+                        <input type="hidden" name="userid" value="{{id}}">
+                        <button class="btn btn-outline-danger btn-sm" type="submit">{{excludelabel}}</button>
+                    </form>
+                </li>
+            {{/results}}
+        </ul>
     {{/haveresults}}
     <h3>{{excludedtitle}}</h3>
     {{^haveexcluded}}<p>{{noexcluded}}</p>{{/haveexcluded}}
     {{#haveexcluded}}
-    <ul class="local-teacher-admin-list">
-        {{#excluded}}
-        <li><span>{{fullname}} <small>#{{id}}</small></span>
-            <form method="post" action="{{postaction}}">
-                <input type="hidden" name="sesskey" value="{{sesskey}}">
-                <input type="hidden" name="action" value="include">
-                <input type="hidden" name="userid" value="{{id}}">
-                <button class="btn btn-outline-secondary btn-sm" type="submit">{{includelabel}}</button>
-            </form>
-        </li>
-        {{/excluded}}
-    </ul>
+        <ul class="local-teacher-admin-list">
+            {{#excluded}}
+                <li><span>{{fullname}} <small>#{{id}}</small></span>
+                    <form method="post" action="{{postaction}}">
+                        <input type="hidden" name="sesskey" value="{{sesskey}}">
+                        <input type="hidden" name="action" value="include">
+                        <input type="hidden" name="userid" value="{{id}}">
+                        <button class="btn btn-outline-secondary btn-sm" type="submit">{{includelabel}}</button>
+                    </form>
+                </li>
+            {{/excluded}}
+        </ul>
     {{/haveexcluded}}
 </div>

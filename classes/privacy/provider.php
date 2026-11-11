@@ -26,19 +26,23 @@ namespace local_teacher\privacy;
 
 defined("MOODLE_INTERNAL") || die();
 
+use context;
+use context_system;
 use core_privacy\local\metadata\collection;
 use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\request\approved_userlist;
 use core_privacy\local\request\contextlist;
+use core_privacy\local\request\core_userlist_provider;
 use core_privacy\local\request\userlist;
+use core_privacy\local\request\writer;
 
 /**
  * Privacy implementation for explicit user exclusions.
  */
 final class provider implements
-        \core_privacy\local\metadata\provider,
-        \core_privacy\local\request\plugin\provider,
-        \core_privacy\local\request\core_userlist_provider {
+    \core_privacy\local\metadata\provider,
+    \core_privacy\local\request\plugin\provider,
+    core_userlist_provider {
 
     /**
      * Describe stored personal data.
@@ -76,13 +80,13 @@ final class provider implements
      */
     public static function export_user_data(approved_contextlist $contextlist): void {
         global $DB;
-        if (!in_array(\context_system::instance()->id, $contextlist->get_contextids(), true)) {
+        if (!in_array(context_system::instance()->id, $contextlist->get_contextids(), true)) {
             return;
         }
         $record = $DB->get_record("local_teacher_excluded", ["userid" => $contextlist->get_user()->id]);
         if ($record) {
-            \core_privacy\local\request\writer::with_context(\context_system::instance())
-                ->export_data([get_string("exclusions", "local_teacher")], (object) [
+            writer::with_context(context_system::instance())
+                ->export_data([get_string("exclusions", "local_teacher")], (object)[
                     "excluded" => true,
                     "timecreated" => $record->timecreated,
                 ]);
@@ -92,9 +96,9 @@ final class provider implements
     /**
      * Delete exclusions when all system-context data expires.
      *
-     * @param \context $context Expiring context.
+     * @param context $context Expiring context.
      */
-    public static function delete_data_for_all_users_in_context(\context $context): void {
+    public static function delete_data_for_all_users_in_context(context $context): void {
         global $DB;
         if ($context->contextlevel === CONTEXT_SYSTEM) {
             $DB->delete_records("local_teacher_excluded");
@@ -108,7 +112,7 @@ final class provider implements
      */
     public static function delete_data_for_user(approved_contextlist $contextlist): void {
         global $DB;
-        if (in_array(\context_system::instance()->id, $contextlist->get_contextids(), true)) {
+        if (in_array(context_system::instance()->id, $contextlist->get_contextids(), true)) {
             $DB->delete_records("local_teacher_excluded", ["userid" => $contextlist->get_user()->id]);
         }
     }

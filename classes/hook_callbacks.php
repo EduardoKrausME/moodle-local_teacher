@@ -25,6 +25,8 @@
 namespace local_teacher;
 
 use core\hook\navigation\primary_extend;
+use moodle_url;
+use navigation_node;
 
 defined("MOODLE_INTERNAL") || die();
 
@@ -46,13 +48,13 @@ final class hook_callbacks {
         }
 
         $primaryview = $hook->get_primaryview();
-        if ($primaryview->find("local_teacher_directory", \navigation_node::TYPE_CUSTOM)) {
+        if ($primaryview->find("local_teacher_directory", navigation_node::TYPE_CUSTOM)) {
             return;
         }
         $primaryview->add(
             get_string("teachers", "local_teacher"),
-            new \moodle_url("/local/teacher/index.php"),
-            \navigation_node::TYPE_CUSTOM,
+            new moodle_url("/local/teacher/index.php"),
+            navigation_node::TYPE_CUSTOM,
             null,
             "local_teacher_directory"
         );

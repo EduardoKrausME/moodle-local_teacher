@@ -5,7 +5,7 @@ concurrency:
   cancel-in-progress: false
   queue: max
 
-on: [push]
+on: [ push ]
 
 permissions:
   contents: write

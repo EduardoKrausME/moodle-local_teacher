@@ -49,8 +49,6 @@ $PAGE->set_url(new moodle_url("/local/teacher/index.php", ["q" => $search, "page
 $PAGE->set_context($context);
 $PAGE->set_pagelayout("standard");
 $PAGE->set_title(get_string("teachers", "local_teacher"));
-$PAGE->set_heading(get_string("teachers", "local_teacher"));
-$PAGE->requires->css(new moodle_url("/local/teacher/styles.css"));
 
 $total = directory::count($search);
 $users = directory::get_teachers($search, $page, $pagesize);

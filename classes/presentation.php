@@ -24,6 +24,10 @@
 
 namespace local_teacher;
 
+use moodle_url;
+use stdClass;
+use user_picture;
+
 defined("MOODLE_INTERNAL") || die();
 
 /**
@@ -33,12 +37,12 @@ final class presentation {
     /**
      * Construct a public picture URL using the Moodle user picture API.
      *
-     * @param \stdClass $user Moodle user object.
+     * @param stdClass $user Moodle user object.
      * @return string
      */
-    public static function picture_url(\stdClass $user): string {
+    public static function picture_url(stdClass $user): string {
         global $PAGE;
-        $picture = new \user_picture($user);
+        $picture = new user_picture($user);
         $picture->size = 100;
         return $picture->get_url($PAGE)->out(false);
     }
@@ -46,11 +50,11 @@ final class presentation {
     /**
      * Prepare the compact directory card.
      *
-     * @param \stdClass $teacher Moodle user.
+     * @param stdClass $teacher Moodle user.
      * @param array $courses Course records.
      * @return array
      */
-    public static function card(\stdClass $teacher, array $courses): array {
+    public static function card(stdClass $teacher, array $courses): array {
         $name = fullname($teacher);
         $listedcourses = [];
         foreach ($courses as $course) {
@@ -59,7 +63,7 @@ final class presentation {
         return [
             "fullname" => $name,
             "pictureurl" => self::picture_url($teacher),
-            "profileurl" => (new \moodle_url("/local/teacher/view.php", ["id" => $teacher->id]))->out(false),
+            "profileurl" => (new moodle_url("/local/teacher/view.php", ["id" => $teacher->id]))->out(false),
             "courses" => $listedcourses,
             "hascourses" => !empty($listedcourses),
             "courselabel" => get_string("teachescourses", "local_teacher"),
@@ -77,7 +81,7 @@ final class presentation {
         foreach ($courses as $course) {
             $items[] = [
                 "name" => format_string($course->fullname),
-                "url" => (new \moodle_url("/course/view.php", ["id" => $course->courseid]))->out(false),
+                "url" => (new moodle_url("/course/view.php", ["id" => $course->courseid]))->out(false),
             ];
         }
         return $items;
