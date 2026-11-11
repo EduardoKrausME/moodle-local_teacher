@@ -62,9 +62,6 @@ foreach (directory::excluded() as $user) {
 }
 
 $data = [
-    "heading" => get_string("exclusions", "local_teacher"),
-    "instructions" => get_string("exclusionsdesc", "local_teacher"),
-    "searchlabel" => get_string("searchteachers", "local_teacher"),
     "searchaction" => (new moodle_url("/local/teacher/exclusions.php"))->out(false),
     "postaction" => (new moodle_url("/local/teacher/exclusions.php"))->out(false),
     "search" => $search,
@@ -72,11 +69,6 @@ $data = [
     "results" => $results,
     "excluded" => $excluded,
     "haveexcluded" => !empty($excluded),
-    "excludedtitle" => get_string("excludedteachers", "local_teacher"),
-    "noexcluded" => get_string("noexcluded", "local_teacher"),
-    "excludelabel" => get_string("excludeteacher", "local_teacher"),
-    "includelabel" => get_string("includeteacher", "local_teacher"),
-    "searchbutton" => get_string("search"),
     "sesskey" => sesskey(),
 ];
 

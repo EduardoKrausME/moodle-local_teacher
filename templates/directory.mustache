@@ -1,17 +1,17 @@
 <div class="local-teacher-directory">
     <div class="local-teacher-lead">
-        <h2>{{heading}}</h2>
-        <p>{{intro}}</p>
+        <h2>{{#str}}teachers, local_teacher{{/str}}</h2>
+        <p>{{#str}}directoryintro, local_teacher{{/str}}</p>
     </div>
     <form method="get" action="{{searchaction}}" class="local-teacher-search" role="search">
-        <label for="local-teacher-search-input">{{searchlabel}}</label>
+        <label for="local-teacher-search-input">{{#str}}searchteachers, local_teacher{{/str}}</label>
         <div class="local-teacher-search-row">
             <input id="local-teacher-search-input" class="form-control" type="search" maxlength="80" name="q"
                    value="{{search}}" autocomplete="off">
-            <button type="submit" class="btn btn-primary">{{searchbutton}}</button>
+            <button type="submit" class="btn btn-primary">{{#str}}search, moodle{{/str}}</button>
         </div>
     </form>
-    <p class="local-teacher-count" aria-live="polite">{{countlabel}}</p>
+    <p class="local-teacher-count" aria-live="polite">{{#str}}teachercount, local_teacher, {{total}}{{/str}}</p>
     {{#hasteachers}}
         <div class="local-teacher-grid">
             {{#teachers}}
@@ -34,6 +34,6 @@
         </div>
     {{/hasteachers}}
     {{^hasteachers}}
-        <div class="alert alert-info">{{emptylabel}}</div>{{/hasteachers}}
-    <nav class="local-teacher-pagination" aria-label="{{heading}}">{{{paginghtml}}}</nav>
+        <div class="alert alert-info">{{#str}}noteachers, local_teacher{{/str}}</div>{{/hasteachers}}
+    <nav class="local-teacher-pagination" aria-label="{{#str}}teachers, local_teacher{{/str}}">{{{paginghtml}}}</nav>
 </div>

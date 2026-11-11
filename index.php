@@ -63,16 +63,11 @@ $baseurl = new moodle_url("/local/teacher/index.php", ["q" => $search]);
 $pagingbar = new paging_bar($total, $page, $pagesize, $baseurl, "page");
 
 $data = [
-    "heading" => get_string("teachers", "local_teacher"),
-    "intro" => get_string("directoryintro", "local_teacher"),
-    "searchlabel" => get_string("searchteachers", "local_teacher"),
     "search" => $search,
+    "total" => $total,
     "searchaction" => (new moodle_url("/local/teacher/index.php"))->out(false),
-    "searchbutton" => get_string("search"),
-    "countlabel" => get_string("teachercount", "local_teacher", $total),
     "teachers" => $cards,
     "hasteachers" => !empty($cards),
-    "emptylabel" => get_string("noteachers", "local_teacher"),
     "paginghtml" => $OUTPUT->render($pagingbar),
 ];
 
