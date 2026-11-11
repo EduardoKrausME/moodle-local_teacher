@@ -109,7 +109,7 @@ final class presentation {
                     continue;
                 }
                 $image = moodle_url::make_pluginfile_url(
-                    $context->id, "course", "overviewfiles", 0, "/", $file->get_filename(), false
+                    $context->id, "course", "overviewfiles", null, "/", $file->get_filename(), false
                 )->out(false);
                 break;
             }
