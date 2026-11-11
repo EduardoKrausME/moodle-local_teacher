@@ -177,9 +177,10 @@ final class directory {
      * Load visible courses for multiple teachers in one query.
      *
      * @param int[] $userids Teacher user IDs.
+     * @param bool $withdetails Include the summary when displaying an individual profile.
      * @return array Courses indexed by teacher ID.
      */
-    public static function courses_for(array $userids): array {
+    public static function courses_for(array $userids, bool $withdetails = false): array {
         global $DB;
         $result = [];
         $roleids = self::role_ids();
@@ -189,7 +190,8 @@ final class directory {
         [$userinsql, $userparams] = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED, "teacheruser");
         [$roleinsql, $roleparams] = $DB->get_in_or_equal($roleids, SQL_PARAMS_NAMED, "teacherrole");
         $params = array_merge($userparams, $roleparams, ["level" => CONTEXT_COURSE]);
-        $sql = "SELECT DISTINCT ra.userid AS teacherid, c.id AS courseid, c.fullname
+        $detailfields = $withdetails ? ", c.summary, c.summaryformat" : "";
+        $sql = "SELECT DISTINCT ra.userid AS teacherid, c.id AS courseid, c.fullname $detailfields
                   FROM {role_assignments} ra
                   JOIN {context} ctx ON ctx.id = ra.contextid AND ctx.contextlevel = :level
                   JOIN {course} c ON c.id = ctx.instanceid

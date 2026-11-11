@@ -38,12 +38,13 @@ final class presentation {
      * Construct a public picture URL using the Moodle user picture API.
      *
      * @param stdClass $user Moodle user object.
+     * @param int $size Requested picture size.
      * @return string
      */
-    public static function picture_url(stdClass $user): string {
+    public static function picture_url(stdClass $user, int $size = 100): string {
         global $PAGE;
         $picture = new user_picture($user);
-        $picture->size = 100;
+        $picture->size = $size;
         return $picture->get_url($PAGE)->out(false);
     }
 
@@ -82,6 +83,63 @@ final class presentation {
             $items[] = [
                 "name" => format_string($course->fullname),
                 "url" => (new moodle_url("/course/view.php", ["id" => $course->courseid]))->out(false),
+            ];
+        }
+        return $items;
+    }
+
+
+    /**
+     * Prepare course cards with native overview images and a short summary.
+     *
+     * @param array $courses Public course records with summaries.
+     * @return array
+     */
+    public static function profile_courses(array $courses): array {
+        global $OUTPUT;
+
+        $items = [];
+        $storage = get_file_storage();
+        foreach ($courses as $course) {
+            $context = \context_course::instance((int) $course->courseid);
+            $image = "";
+            $files = $storage->get_area_files($context->id, "course", "overviewfiles", 0, "filename", false);
+            foreach ($files as $file) {
+                if (strpos($file->get_mimetype(), "image/") !== 0) {
+                    continue;
+                }
+                $image = moodle_url::make_pluginfile_url(
+                    $context->id, "course", "overviewfiles", 0, "/", $file->get_filename(), false
+                )->out(false);
+                break;
+            }
+            if ($image === "") {
+                $image = $OUTPUT->get_generated_image_for_id((int) $course->courseid);
+            }
+
+            $summary = "";
+            if (!empty($course->summary)) {
+                $formatted = format_text($course->summary, (int) $course->summaryformat, [
+                    "context" => $context,
+                    "noclean" => false,
+                    "para" => false,
+                ]);
+                $summary = html_entity_decode(strip_tags($formatted), ENT_QUOTES | ENT_HTML5, "UTF-8");
+                $summary = trim(preg_replace("/\s+/u", " ", $summary) ?? "");
+            }
+            if ($summary === "") {
+                $summary = get_string("coursedescriptionfallback", "local_teacher");
+            }
+            if (\core_text::strlen($summary) > 165) {
+                $summary = rtrim(\core_text::substr($summary, 0, 162)) . "…";
+            }
+
+            $items[] = [
+                "name" => format_string($course->fullname, true, ["context" => $context]),
+                "summary" => $summary,
+                "imageurl" => $image,
+                "url" => (new moodle_url("/course/view.php", ["id" => $course->courseid]))->out(false),
+                "buttonlabel" => get_string("viewcourse", "local_teacher"),
             ];
         }
         return $items;

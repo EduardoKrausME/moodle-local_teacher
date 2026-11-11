@@ -30,6 +30,7 @@ use core\output\notification;
 use core_message\api;
 use local_teacher\directory;
 use local_teacher\presentation;
+use local_teacher\profile_fields;
 
 if (!directory::is_enabled()) {
     throw new moodle_exception("directorydisabled", "local_teacher");
@@ -98,21 +99,36 @@ if (trim((string)$teacher->description) !== "") {
         "para" => false,
     ]);
 }
-$courses = directory::courses_for([$id]);
-$courseitems = presentation::courses($courses[$id] ?? []);
+$courses = directory::courses_for([$id], true);
+$courseitems = presentation::profile_courses($courses[$id] ?? []);
+$curriculum = profile_fields::get_public_data($id);
+$years = profile_fields::years_since_graduation($curriculum["graduation"]);
+$linkedinurl = profile_fields::linkedin_url($curriculum["linkedin"]);
 
 $data = [
     "fullname" => fullname($teacher),
-    "pictureurl" => presentation::picture_url($teacher),
+    "pictureurl" => presentation::picture_url($teacher, 512),
     "backurl" => (new moodle_url("/local/teacher/index.php"))->out(false),
     "backlabel" => get_string("backtodirectory", "local_teacher"),
     "biotitle" => get_string("biography", "local_teacher"),
+    "cvtitle" => get_string("curriculumcategory", "local_teacher"),
+    "experience" => $years !== null
+        ? get_string($years === 1 ? "yearsincegraduation" : "yearssincegraduation", "local_teacher", $years)
+        : "",
+    "hasexperience" => $years !== null,
+    "coursecount" => get_string("profilecoursecount", "local_teacher", count($courseitems)),
+    "coursesintro" => get_string("profilecoursesintro", "local_teacher", fullname($teacher)),
+    "profilecoursestitle" => get_string("profilecoursestitle", "local_teacher"),
+    "haslinkedin" => $linkedinurl !== null,
+    "linkedinurl" => $linkedinurl ?? "",
+    "linkedinlabel" => get_string("viewlinkedin", "local_teacher"),
     "biohtml" => $bio,
     "hasbio" => !empty($bio),
     "nobiolabel" => get_string("nobiography", "local_teacher"),
     "coursestitle" => get_string("teachescourses", "local_teacher"),
     "courses" => $courseitems,
     "hascourses" => !empty($courseitems),
+    "coursescards" => $courseitems,
     "nocourses" => get_string("nocourses", "local_teacher"),
     "cancontact" => $cancontact,
     "contacttitle" => get_string("contactteacher", "local_teacher"),
