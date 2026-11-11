@@ -32,6 +32,7 @@ use core_message\api;
 use local_teacher\directory;
 use local_teacher\presentation;
 use local_teacher\profile_fields;
+use local_teacher\profile_url;
 
 if (!directory::is_enabled()) {
     throw new moodle_exception("directorydisabled", "local_teacher");
@@ -45,13 +46,17 @@ if (isloggedin() && !isguestuser()) {
     require_capability("local/teacher:view", $context);
 }
 
-$id = required_param("id", PARAM_INT);
-$teacher = directory::get_teacher($id);
+$identifier = required_param("id", PARAM_RAW_TRIMMED);
+$teacher = profile_url::resolve($identifier);
 if (!$teacher) {
     throw new moodle_exception("teachernotfound", "local_teacher");
 }
+$id = (int) $teacher->id;
 
-$url = new moodle_url("/local/teacher/view.php", ["id" => $id]);
+$url = profile_url::for_teacher($teacher);
+if (ctype_digit($identifier) && !data_submitted()) {
+    redirect($url);
+}
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_pagelayout("standard");

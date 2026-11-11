@@ -62,7 +62,7 @@ final class presentation {
         return [
             "fullname" => $name,
             "pictureurl" => self::picture_url($teacher, 512),
-            "profileurl" => (new moodle_url("/local/teacher/view.php", ["id" => $teacher->id]))->out(false),
+            "profileurl" => profile_url::for_teacher($teacher)->out(false),
             "courses" => $listedcourses,
             "hascourses" => !empty($listedcourses),
         ];

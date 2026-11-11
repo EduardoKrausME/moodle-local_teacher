@@ -72,6 +72,50 @@ final class directory_test extends advanced_testcase {
     }
 
     /**
+     * Readable URLs use percent separators while retaining legacy numeric IDs.
+     */
+    public function test_teacher_profile_name_url(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $teacher = $this->getDataGenerator()->create_user([
+            "firstname" => "Marcus",
+            "lastname" => "Britto",
+        ]);
+        $roleid = (int) $DB->get_field("role", "id", ["shortname" => "editingteacher"], MUST_EXIST);
+        set_config("roleids", (string) $roleid, "local_teacher");
+        role_assign($roleid, $teacher->id, context_course::instance($course->id)->id);
+        $this->assertSame("Marcus%Britto", profile_url::identifier($teacher));
+        $this->assertSame($teacher->id, profile_url::resolve("Marcus%Britto")->id);
+        $this->assertSame($teacher->id, profile_url::resolve((string) $teacher->id)->id);
+        $this->assertStringContainsString("id=Marcus%25Britto", profile_url::for_teacher($teacher)->out(false));
+    }
+
+    /**
+     * Name collisions must never resolve to an arbitrary teacher.
+     */
+    public function test_duplicate_profile_names_remain_unique(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $roleid = (int) $DB->get_field("role", "id", ["shortname" => "editingteacher"], MUST_EXIST);
+        set_config("roleids", (string) $roleid, "local_teacher");
+        $one = $this->getDataGenerator()->create_user(["firstname" => "Marcus", "lastname" => "Britto"]);
+        $two = $this->getDataGenerator()->create_user(["firstname" => "Marcus", "lastname" => "Britto"]);
+        role_assign($roleid, $one->id, context_course::instance($course->id)->id);
+        role_assign($roleid, $two->id, context_course::instance($course->id)->id);
+
+        $this->assertSame("Marcus%Britto~" . $one->id, profile_url::identifier($one));
+        $this->assertSame("Marcus%Britto~" . $two->id, profile_url::identifier($two));
+        $this->assertNull(profile_url::resolve("Marcus%Britto"));
+        $this->assertSame($one->id, profile_url::resolve(profile_url::identifier($one))->id);
+        $this->assertSame($two->id, profile_url::resolve(profile_url::identifier($two))->id);
+        directory::exclude($two->id);
+        $this->assertNull(profile_url::resolve("Marcus%Britto~" . $two->id));
+        $this->assertSame("Marcus%Britto", profile_url::identifier($one));
+    }
+
+    /**
      * Confirm suspended users and hidden courses do not appear.
      */
     public function test_suspended_and_hidden_course_teachers_are_not_listed(): void {
