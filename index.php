@@ -76,7 +76,6 @@ $PAGE->set_url(new moodle_url("/local/teacher/index.php", [
 ]));
 $PAGE->set_pagelayout("standard");
 $PAGE->set_title(get_string("teachers", "local_teacher"));
-$PAGE->requires->css(new moodle_url("/local/teacher/styles.css"));
 
 $total = directory::count($search, $categoryid);
 if ($total > 0) {
