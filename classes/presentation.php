@@ -126,9 +126,6 @@ final class presentation {
                 $summary = html_entity_decode(strip_tags($formatted), ENT_QUOTES | ENT_HTML5, "UTF-8");
                 $summary = trim(preg_replace("/\s+/u", " ", $summary) ?? "");
             }
-            if ($summary === "") {
-                $summary = get_string("coursedescriptionfallback", "local_teacher");
-            }
             if (\core_text::strlen($summary) > 165) {
                 $summary = rtrim(\core_text::substr($summary, 0, 162)) . "…";
             }
@@ -136,9 +133,9 @@ final class presentation {
             $items[] = [
                 "name" => format_string($course->fullname, true, ["context" => $context]),
                 "summary" => $summary,
+                "hassummary" => $summary !== "",
                 "imageurl" => $image,
                 "url" => (new moodle_url("/course/view.php", ["id" => $course->courseid]))->out(false),
-                "buttonlabel" => get_string("viewcourse", "local_teacher"),
             ];
         }
         return $items;
