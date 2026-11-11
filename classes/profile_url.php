@@ -32,14 +32,28 @@ use stdClass;
  */
 final class profile_url {
     /**
-     * Replace spaces with a percent separator, escaping percent signs in names.
+     * Build a lowercase, ASCII-safe slug for the public path.
      *
      * @param stdClass $teacher Teacher record.
      * @return string
      */
     public static function name_slug(stdClass $teacher): string {
+        $name = \core_text::convert(fullname($teacher), "utf-8", "ascii");
+        $slug = strtolower((string) $name);
+        $slug = preg_replace("/[^a-z0-9]+/", "-", $slug) ?? "";
+        $slug = trim(substr($slug, 0, 90), "-");
+        return $slug !== "" ? $slug : "professor";
+    }
+
+    /**
+     * Preserve the identifier format used by previous plugin releases.
+     *
+     * @param stdClass $teacher Teacher record.
+     * @return string
+     */
+    private static function legacy_name_slug(stdClass $teacher): string {
         $name = trim(fullname($teacher));
-        $name = preg_replace('/\s+/u', ' ', $name) ?? $name;
+        $name = preg_replace('/\\s+/u', ' ', $name) ?? $name;
         return str_replace(["%", " "], ["%%", "%"], $name);
     }
 
@@ -81,7 +95,7 @@ final class profile_url {
         $matches = [];
         foreach ($DB->get_records_sql($sql, $params) as $candidate) {
             $teacher = directory::get_teacher((int) $candidate->id);
-            if ($teacher && self::name_slug($teacher) === $slug) {
+            if ($teacher && self::legacy_name_slug($teacher) === $slug) {
                 $matches[$teacher->id] = $teacher;
             }
         }
@@ -89,42 +103,71 @@ final class profile_url {
     }
 
     /**
-     * Use a numeric suffix only if more than one eligible teacher has the same name.
+     * Build stable, unique links from the user ID and readable name.
      *
      * @param stdClass $teacher Teacher record.
      * @return string
      */
     public static function identifier(stdClass $teacher): string {
-        $slug = self::name_slug($teacher);
-        return count(self::matches($slug)) > 1 ? $slug . "~" . $teacher->id : $slug;
+        return (int) $teacher->id . "-" . self::name_slug($teacher);
     }
 
     /**
-     * Return a Moodle URL that encodes the percent separator as %25.
+     * Return the canonical slash-argument URL for a public teacher profile.
      *
      * @param stdClass $teacher Teacher record.
      * @return moodle_url
      */
     public static function for_teacher(stdClass $teacher): moodle_url {
-        return new moodle_url("/local/teacher/view.php", ["id" => self::identifier($teacher)]);
+        return new moodle_url("/local/teacher/view.php/" . self::identifier($teacher));
     }
 
     /**
-     * Resolve new name-based URLs and retain legacy numeric links.
+     * Read a slash argument, also supporting proxy setups without PATH_INFO.
      *
-     * @param string $identifier Decoded value of the id query parameter.
+     * @param string|null $pathinfo Server PATH_INFO, when available.
+     * @param string|null $requesturi Server REQUEST_URI, when available.
+     * @return string|null Identifier or null when no slash argument was supplied.
+     */
+    public static function path_identifier(?string $pathinfo, ?string $requesturi): ?string {
+        $path = (string) $pathinfo;
+        if ($path === "" && $requesturi !== null) {
+            $requestpath = parse_url($requesturi, PHP_URL_PATH);
+            $marker = "/local/teacher/view.php/";
+            if (is_string($requestpath)) {
+                $position = strpos($requestpath, $marker);
+                if ($position !== false) {
+                    $path = substr($requestpath, $position + strlen($marker) - 1);
+                }
+            }
+        }
+        if ($path === "") {
+            return null;
+        }
+        return trim(rawurldecode($path), "/");
+    }
+
+    /**
+     * Resolve ID-slug links and preserve old numeric and name-only query links.
+     *
+     * ID-slug links resolve by the immutable ID. A stale or incorrect slug is
+     * redirected to the current canonical URL by view.php on GET requests.
+     *
+     * @param string $identifier Identifier from the path or id query parameter.
      * @return stdClass|null
      */
     public static function resolve(string $identifier): ?stdClass {
         if (ctype_digit($identifier)) {
             return directory::get_teacher((int) $identifier);
         }
+        if (preg_match('/^([1-9][0-9]*)-([a-z0-9]+(?:-[a-z0-9]+)*)$/D', $identifier, $parts)) {
+            return directory::get_teacher((int) $parts[1]);
+        }
+
+        // Backward compatibility with the previous name-based query links.
         $matches = self::matches($identifier);
         if (count($matches) === 1) {
             return reset($matches);
-        }
-        if ($matches) {
-            return null;
         }
         if (preg_match('/^(.+)~([1-9][0-9]*)$/u', $identifier, $parts)) {
             $matches = self::matches($parts[1]);

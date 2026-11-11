@@ -72,9 +72,9 @@ final class directory_test extends advanced_testcase {
     }
 
     /**
-     * Readable URLs use percent separators while retaining legacy numeric IDs.
+     * Canonical URLs use the teacher ID and a lowercase name slug.
      */
-    public function test_teacher_profile_name_url(): void {
+    public function test_teacher_profile_id_and_slug_url(): void {
         global $DB;
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course();
@@ -85,14 +85,24 @@ final class directory_test extends advanced_testcase {
         $roleid = (int) $DB->get_field("role", "id", ["shortname" => "editingteacher"], MUST_EXIST);
         set_config("roleids", (string) $roleid, "local_teacher");
         role_assign($roleid, $teacher->id, context_course::instance($course->id)->id);
-        $this->assertSame("Marcus%Britto", profile_url::identifier($teacher));
-        $this->assertSame($teacher->id, profile_url::resolve("Marcus%Britto")->id);
+
+        $identifier = $teacher->id . "-marcus-britto";
+        $this->assertSame($identifier, profile_url::identifier($teacher));
+        $this->assertSame($teacher->id, profile_url::resolve($identifier)->id);
         $this->assertSame($teacher->id, profile_url::resolve((string) $teacher->id)->id);
-        $this->assertStringContainsString("id=Marcus%25Britto", profile_url::for_teacher($teacher)->out(false));
+        $this->assertSame($teacher->id, profile_url::resolve("Marcus%Britto")->id);
+        $this->assertStringContainsString(
+            "/local/teacher/view.php/" . $identifier,
+            profile_url::for_teacher($teacher)->out(false)
+        );
+
+        // Old slugs can be redirected safely, because the ID is authoritative.
+        $this->assertSame($teacher->id, profile_url::resolve($teacher->id . "-old-name")->id);
+        $this->assertNull(profile_url::resolve($teacher->id . "-invalid/segment"));
     }
 
     /**
-     * Name collisions must never resolve to an arbitrary teacher.
+     * Duplicate names still produce distinct public URLs.
      */
     public function test_duplicate_profile_names_remain_unique(): void {
         global $DB;
@@ -105,14 +115,48 @@ final class directory_test extends advanced_testcase {
         role_assign($roleid, $one->id, context_course::instance($course->id)->id);
         role_assign($roleid, $two->id, context_course::instance($course->id)->id);
 
-        $this->assertSame("Marcus%Britto~" . $one->id, profile_url::identifier($one));
-        $this->assertSame("Marcus%Britto~" . $two->id, profile_url::identifier($two));
+        $this->assertSame($one->id . "-marcus-britto", profile_url::identifier($one));
+        $this->assertSame($two->id . "-marcus-britto", profile_url::identifier($two));
         $this->assertNull(profile_url::resolve("Marcus%Britto"));
         $this->assertSame($one->id, profile_url::resolve(profile_url::identifier($one))->id);
         $this->assertSame($two->id, profile_url::resolve(profile_url::identifier($two))->id);
+
+        // Existing duplicate-name links remain readable while both profiles exist.
+        $this->assertSame($one->id, profile_url::resolve("Marcus%Britto~" . $one->id)->id);
         directory::exclude($two->id);
-        $this->assertNull(profile_url::resolve("Marcus%Britto~" . $two->id));
-        $this->assertSame("Marcus%Britto", profile_url::identifier($one));
+        $this->assertNull(profile_url::resolve(profile_url::identifier($two)));
+        $this->assertSame($one->id, profile_url::resolve("Marcus%Britto")->id);
+    }
+
+    /**
+     * The path parser works with PATH_INFO and URL-based fallbacks.
+     */
+    public function test_teacher_profile_path_parsing(): void {
+        $this->assertSame(
+            "3-marcus-britto",
+            profile_url::path_identifier("/3-marcus-britto", "/local/teacher/view.php/3-wrong")
+        );
+        $this->assertSame(
+            "3-marcus-britto",
+            profile_url::path_identifier(null, "/moodle/local/teacher/view.php/3-marcus-britto?from=directory")
+        );
+        $this->assertNull(profile_url::path_identifier(null, "/moodle/local/teacher/view.php?id=3"));
+        $this->assertSame(
+            "3-marcus-britto",
+            profile_url::path_identifier("/3-marcus-britto", null)
+        );
+    }
+
+    /**
+     * Accented characters and punctuation produce a simple URL slug.
+     */
+    public function test_teacher_name_slug_normalisation(): void {
+        $this->resetAfterTest();
+        $teacher = $this->getDataGenerator()->create_user([
+            "firstname" => "João Antônio",
+            "lastname" => "D'Ávila",
+        ]);
+        $this->assertSame("joao-antonio-d-avila", profile_url::name_slug($teacher));
     }
 
     /**

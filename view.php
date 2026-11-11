@@ -46,7 +46,8 @@ if (isloggedin() && !isguestuser()) {
     require_capability("local/teacher:view", $context);
 }
 
-$identifier = required_param("id", PARAM_RAW_TRIMMED);
+$pathidentifier = profile_url::path_identifier($_SERVER["PATH_INFO"] ?? null, $_SERVER["REQUEST_URI"] ?? null);
+$identifier = $pathidentifier ?? required_param("id", PARAM_RAW_TRIMMED);
 $teacher = profile_url::resolve($identifier);
 if (!$teacher) {
     throw new moodle_exception("teachernotfound", "local_teacher");
@@ -54,7 +55,7 @@ if (!$teacher) {
 $id = (int) $teacher->id;
 
 $url = profile_url::for_teacher($teacher);
-if (ctype_digit($identifier) && !data_submitted()) {
+if (!data_submitted() && ($pathidentifier === null || $identifier !== profile_url::identifier($teacher))) {
     redirect($url);
 }
 $PAGE->set_url($url);
