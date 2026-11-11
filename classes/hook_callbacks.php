@@ -51,7 +51,7 @@ final class hook_callbacks {
         }
         $primaryview->add(
             get_string("teachers", "local_teacher"),
-            new moodle_url("/local/teacher/index.php"),
+            new moodle_url("/local/teacher/"),
             navigation_node::TYPE_CUSTOM,
             null,
             "local_teacher_directory"

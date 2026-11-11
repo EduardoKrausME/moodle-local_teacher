@@ -128,7 +128,7 @@ $linkedinurl = profile_fields::linkedin_url($curriculum["linkedin"]);
 $data = [
     "fullname" => fullname($teacher),
     "pictureurl" => presentation::picture_url($teacher, 512),
-    "backurl" => (new moodle_url("/local/teacher/index.php"))->out(false),
+    "backurl" => (new moodle_url("/local/teacher/"))->out(false),
     "years" => $years ?? 0,
     "hasexperience" => $years !== null,
     "isoneyear" => $years === 1,

@@ -68,7 +68,7 @@ foreach ($categories as $category) {
         "selected" => $categoryid === (int) $category->id,
     ];
 }
-$PAGE->set_url(new moodle_url("/local/teacher/index.php", [
+$PAGE->set_url(new moodle_url("/local/teacher/", [
     "q" => $search,
     "category" => $categoryid,
     "sort" => $sort,
@@ -96,7 +96,7 @@ foreach ($users as $user) {
     $cards[] = presentation::card($user, $teachercourses);
 }
 
-$baseurl = new moodle_url("/local/teacher/index.php", [
+$baseurl = new moodle_url("/local/teacher/", [
     "q" => $search,
     "category" => $categoryid,
     "sort" => $sort,
@@ -119,7 +119,7 @@ $data = [
     ],
     "searchlabel" => get_string("searchteachers", "local_teacher"),
     "search" => $search,
-    "searchaction" => (new moodle_url("/local/teacher/index.php"))->out(false),
+    "searchaction" => (new moodle_url("/local/teacher/"))->out(false),
     "searchbutton" => get_string("applyfilters", "local_teacher"),
     "countlabel" => get_string("teachercount", "local_teacher", $total),
     "teachers" => $cards,
