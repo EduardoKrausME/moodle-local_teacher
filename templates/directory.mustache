@@ -1,0 +1,36 @@
+<div class="local-teacher-directory">
+    <div class="local-teacher-lead">
+        <h2>{{heading}}</h2>
+        <p>{{intro}}</p>
+    </div>
+    <form method="get" action="{{searchaction}}" class="local-teacher-search" role="search">
+        <label for="local-teacher-search-input">{{searchlabel}}</label>
+        <div class="local-teacher-search-row">
+            <input id="local-teacher-search-input" class="form-control" type="search" maxlength="80" name="q" value="{{search}}" autocomplete="off">
+            <button type="submit" class="btn btn-primary">{{searchbutton}}</button>
+        </div>
+    </form>
+    <p class="local-teacher-count" aria-live="polite">{{countlabel}}</p>
+    {{#hasteachers}}
+    <div class="local-teacher-grid">
+        {{#teachers}}
+        <a class="local-teacher-card" href="{{profileurl}}" aria-label="{{fullname}}">
+            <div class="local-teacher-card-head">
+                <img src="{{pictureurl}}" alt="{{fullname}}" class="local-teacher-avatar" loading="lazy" width="84" height="84">
+                <div class="local-teacher-card-heading">
+                    <h3>{{fullname}}</h3>
+                    <span class="local-teacher-role">{{courselabel}}</span>
+                </div>
+            </div>
+            {{#hascourses}}
+            <ul class="local-teacher-course-list">
+                {{#courses}}<li>{{name}}</li>{{/courses}}
+            </ul>
+            {{/hascourses}}
+        </a>
+        {{/teachers}}
+    </div>
+    {{/hasteachers}}
+    {{^hasteachers}}<div class="alert alert-info">{{emptylabel}}</div>{{/hasteachers}}
+    <nav class="local-teacher-pagination" aria-label="{{heading}}">{{{paginghtml}}}</nav>
+</div>

@@ -1,0 +1,43 @@
+<div class="local-teacher-profile">
+    <a href="{{backurl}}" class="local-teacher-back">&larr; {{backlabel}}</a>
+    <section class="local-teacher-profile-header">
+        <img src="{{pictureurl}}" alt="{{fullname}}" class="local-teacher-profile-avatar" width="164" height="164">
+        <div class="local-teacher-profile-heading">
+            <h2>{{fullname}}</h2>
+            <div class="local-teacher-profile-subtitle">{{coursestitle}}</div>
+            <ul class="local-teacher-profile-course-brief">
+                {{#courses}}<li>{{name}}</li>{{/courses}}
+            </ul>
+        </div>
+    </section>
+    <div class="local-teacher-profile-grid">
+        <section class="local-teacher-section local-teacher-biography">
+            <h3>{{biotitle}}</h3>
+            {{#hasbio}}<div class="local-teacher-bio-content">{{{biohtml}}}</div>{{/hasbio}}
+            {{^hasbio}}<p>{{nobiolabel}}</p>{{/hasbio}}
+        </section>
+        <div class="local-teacher-profile-side">
+            <section class="local-teacher-section">
+                <h3>{{coursestitle}}</h3>
+                {{#hascourses}}
+                <ul class="local-teacher-profile-course-links">
+                    {{#courses}}<li><a href="{{url}}">{{name}}</a></li>{{/courses}}
+                </ul>
+                {{/hascourses}}
+                {{^hascourses}}<p>{{nocourses}}</p>{{/hascourses}}
+            </section>
+            {{#cancontact}}
+            <section class="local-teacher-section local-teacher-contact">
+                <h3>{{contacttitle}}</h3>
+                <form method="post" action="{{contactaction}}">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <input type="hidden" name="action" value="send">
+                    <label for="local-teacher-message">{{contactlabel}}</label>
+                    <textarea class="form-control" id="local-teacher-message" name="message" rows="5" minlength="1" maxlength="2000" required></textarea>
+                    <button class="btn btn-primary" type="submit">{{contactbutton}}</button>
+                </form>
+            </section>
+            {{/cancontact}}
+        </div>
+    </div>
+</div>
