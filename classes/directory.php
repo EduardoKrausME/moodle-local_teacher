@@ -84,7 +84,7 @@ final class directory {
      * @param bool $excluded Whether excluded teachers should be included.
      * @return array{0:string,1:array}
      */
-    private static function conditions(string $search = "", bool $excluded = false): array {
+    private static function conditions(string $search = "", bool $excluded = false, int $categoryid = 0): array {
         global $DB;
 
         $roleids = self::role_ids();
@@ -98,6 +98,10 @@ final class directory {
             $condition .= " AND NOT EXISTS (
                 SELECT 1 FROM {local_teacher_excluded} exclusions WHERE exclusions.userid = u.id
             )";
+        }
+        if ($categoryid > 0) {
+            $condition .= " AND c.category = :teachercategory";
+            $params["teachercategory"] = $categoryid;
         }
         if ($search !== "") {
             $like = "%" . $DB->sql_like_escape($search) . "%";
@@ -117,9 +121,9 @@ final class directory {
      * @param string $search Search terms.
      * @return int
      */
-    public static function count(string $search = ""): int {
+    public static function count(string $search = "", int $categoryid = 0): int {
         global $DB;
-        [$conditions, $params] = self::conditions($search);
+        [$conditions, $params] = self::conditions($search, false, $categoryid);
         $sql = "SELECT COUNT(DISTINCT u.id)
                   FROM {user} u
                   JOIN {role_assignments} ra ON ra.userid = u.id
@@ -138,19 +142,41 @@ final class directory {
      * @param int $pagesize Maximum members per page.
      * @return array
      */
-    public static function get_teachers(string $search = "", int $page = 0, int $pagesize = 18): array {
+    public static function get_teachers(string $search = "", int $page = 0, int $pagesize = 18,
+            int $categoryid = 0, string $sort = "az"): array {
         global $DB;
-        [$conditions, $params] = self::conditions($search);
-        $names = fields::for_name()->get_sql('u', false, '', '', false)->selects;
+        [$conditions, $params] = self::conditions($search, false, $categoryid);
+        $direction = $sort === "za" ? "DESC" : "ASC";
+        $names = \core_user\fields::for_name()->get_sql("u", false, "", "", false)->selects;
         $sql = "SELECT DISTINCT u.id, u.picture, u.imagealt, $names
                   FROM {user} u
                   JOIN {role_assignments} ra ON ra.userid = u.id
                   JOIN {context} ctx ON ctx.id = ra.contextid AND ctx.contextlevel = :level
                   JOIN {course} c ON c.id = ctx.instanceid
                  WHERE $conditions
-              ORDER BY u.lastname, u.firstname, u.id";
+              ORDER BY u.lastname $direction, u.firstname $direction, u.id $direction";
         $params["level"] = CONTEXT_COURSE;
         return $DB->get_records_sql($sql, $params, max(0, $page) * $pagesize, $pagesize);
+    }
+
+    /**
+     * List categories containing eligible teachers in visible courses.
+     *
+     * @return array Categories indexed by ID.
+     */
+    public static function categories(): array {
+        global $DB;
+        [$conditions, $params] = self::conditions();
+        $params["level"] = CONTEXT_COURSE;
+        $sql = "SELECT DISTINCT cat.id, cat.name
+                  FROM {course_categories} cat
+                  JOIN {course} c ON c.category = cat.id
+                  JOIN {context} ctx ON ctx.instanceid = c.id AND ctx.contextlevel = :level
+                  JOIN {role_assignments} ra ON ra.contextid = ctx.id
+                  JOIN {user} u ON u.id = ra.userid
+                 WHERE cat.visible = 1 AND $conditions
+              ORDER BY cat.name ASC, cat.id ASC";
+        return $DB->get_records_sql($sql, $params);
     }
 
     /**
@@ -193,7 +219,7 @@ final class directory {
         [$roleinsql, $roleparams] = $DB->get_in_or_equal($roleids, SQL_PARAMS_NAMED, "teacherrole");
         $params = array_merge($userparams, $roleparams, ["level" => CONTEXT_COURSE]);
         $detailfields = $withdetails ? ", c.summary, c.summaryformat" : "";
-        $sql = "SELECT DISTINCT ra.userid AS teacherid, c.id AS courseid, c.fullname $detailfields
+        $sql = "SELECT DISTINCT ra.userid AS teacherid, c.id AS courseid, c.fullname, c.category $detailfields
                   FROM {role_assignments} ra
                   JOIN {context} ctx ON ctx.id = ra.contextid AND ctx.contextlevel = :level
                   JOIN {course} c ON c.id = ctx.instanceid

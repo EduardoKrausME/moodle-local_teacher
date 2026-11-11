@@ -58,12 +58,12 @@ final class presentation {
     public static function card(stdClass $teacher, array $courses): array {
         $name = fullname($teacher);
         $listedcourses = [];
-        foreach ($courses as $course) {
+        foreach (array_slice($courses, 0, 3) as $course) {
             $listedcourses[] = ["name" => format_string($course->fullname)];
         }
         return [
             "fullname" => $name,
-            "pictureurl" => self::picture_url($teacher),
+            "pictureurl" => self::picture_url($teacher, 512),
             "profileurl" => (new moodle_url("/local/teacher/view.php", ["id" => $teacher->id]))->out(false),
             "courses" => $listedcourses,
             "hascourses" => !empty($listedcourses),
