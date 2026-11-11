@@ -126,7 +126,6 @@ $data = [
     "biohtml" => $bio,
     "hasbio" => !empty($bio),
     "nobiolabel" => get_string("nobiography", "local_teacher"),
-    "coursestitle" => get_string("teachescourses", "local_teacher"),
     "courses" => $courseitems,
     "hascourses" => !empty($courseitems),
     "coursescards" => $courseitems,

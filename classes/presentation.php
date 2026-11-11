@@ -67,7 +67,6 @@ final class presentation {
             "profileurl" => (new moodle_url("/local/teacher/view.php", ["id" => $teacher->id]))->out(false),
             "courses" => $listedcourses,
             "hascourses" => !empty($listedcourses),
-            "courselabel" => get_string("teachescourses", "local_teacher"),
         ];
     }
 

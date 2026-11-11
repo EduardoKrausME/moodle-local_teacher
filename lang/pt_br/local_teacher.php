@@ -68,7 +68,6 @@ $string['teacher:view'] = 'Visualizar o diretório de professores';
 $string['teachercount'] = '{$a} professores encontrados';
 $string['teachernotfound'] = 'Este professor não está disponível no diretório.';
 $string['teachers'] = 'Professores';
-$string['teachescourses'] = 'Cursos em que atua';
 $string['viewcourse'] = 'Ver curso';
 $string['viewlinkedin'] = 'Ver LinkedIn';
 $string['yearsincegraduation'] = '{$a} ano desde a formatura';

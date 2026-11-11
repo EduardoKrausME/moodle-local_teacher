@@ -68,7 +68,6 @@ $string['teacher:view'] = 'View the teacher directory';
 $string['teachercount'] = '{$a} teachers found';
 $string['teachernotfound'] = 'This teacher is not available in the directory.';
 $string['teachers'] = 'Teachers';
-$string['teachescourses'] = 'Courses taught';
 $string['viewcourse'] = 'View course';
 $string['viewlinkedin'] = 'View LinkedIn';
 $string['yearsincegraduation'] = '{$a} year since graduation';
