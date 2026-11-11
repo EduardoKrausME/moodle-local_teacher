@@ -25,6 +25,8 @@
 namespace local_teacher;
 
 /**
+ * Class profile_fields_test
+ *
  * @covers \local_teacher\profile_fields
  */
 final class profile_fields_test extends \advanced_testcase {
