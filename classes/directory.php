@@ -24,10 +24,6 @@
 
 namespace local_teacher;
 
-use core_user\fields;
-use moodle_exception;
-use stdClass;
-
 defined("MOODLE_INTERNAL") || die();
 
 /**
@@ -41,7 +37,7 @@ final class directory {
      */
     public static function is_enabled(): bool {
         $setting = get_config("local_teacher", "enabled");
-        return $setting === false || (bool)$setting;
+        return $setting === false || (bool) $setting;
     }
 
     /**
@@ -50,7 +46,7 @@ final class directory {
      * @return bool
      */
     public static function allows_guests(): bool {
-        return (bool)get_config("local_teacher", "allowguest");
+        return (bool) get_config("local_teacher", "allowguest");
     }
 
     /**
@@ -60,7 +56,7 @@ final class directory {
      */
     public static function allows_contact(): bool {
         $setting = get_config("local_teacher", "allowcontact");
-        return $setting === false || (bool)$setting;
+        return $setting === false || (bool) $setting;
     }
 
     /**
@@ -73,8 +69,8 @@ final class directory {
         if ($raw === false) {
             return [3];
         }
-        $ids = array_map("intval", explode(",", (string)$raw));
-        return array_values(array_unique(array_filter($ids, static function (int $id): bool {
+        $ids = array_map("intval", explode(",", (string) $raw));
+        return array_values(array_unique(array_filter($ids, static function(int $id): bool {
             return $id > 0;
         })));
     }
@@ -129,7 +125,7 @@ final class directory {
                   JOIN {course} c ON c.id = ctx.instanceid
                  WHERE $conditions";
         $params["level"] = CONTEXT_COURSE;
-        return (int)$DB->count_records_sql($sql, $params);
+        return (int) $DB->count_records_sql($sql, $params);
     }
 
     /**
@@ -143,7 +139,7 @@ final class directory {
     public static function get_teachers(string $search = "", int $page = 0, int $pagesize = 18): array {
         global $DB;
         [$conditions, $params] = self::conditions($search);
-        $names = fields::for_name()->get_sql('u', false, '', '', false)->selects;
+        $names = get_all_user_name_fields(true, "u");
         $sql = "SELECT DISTINCT u.id, u.picture, u.imagealt, $names
                   FROM {user} u
                   JOIN {role_assignments} ra ON ra.userid = u.id
@@ -159,9 +155,9 @@ final class directory {
      * Get one visible directory member with their full profile description.
      *
      * @param int $userid Moodle user ID.
-     * @return stdClass|null
+     * @return \stdClass|null
      */
-    public static function get_teacher(int $userid): ?stdClass {
+    public static function get_teacher(int $userid): ?\stdClass {
         global $DB;
         [$conditions, $params] = self::conditions();
         $params["userid"] = $userid;
@@ -214,7 +210,7 @@ final class directory {
      */
     public static function excluded(): array {
         global $DB;
-        $names = fields::for_name()->get_sql('u', false, '', '', false)->selects;
+        $names = get_all_user_name_fields(true, "u");
         $sql = "SELECT u.id, $names, e.timecreated
                   FROM {local_teacher_excluded} e
                   JOIN {user} u ON u.id = e.userid
@@ -230,9 +226,9 @@ final class directory {
     public static function exclude(int $userid): void {
         global $DB;
         if (!self::get_teacher($userid)) {
-            throw new moodle_exception("teachernotfound", "local_teacher");
+            throw new \moodle_exception("teachernotfound", "local_teacher");
         }
-        $DB->insert_record("local_teacher_excluded", (object)[
+        $DB->insert_record("local_teacher_excluded", (object) [
             "userid" => $userid,
             "timecreated" => time(),
         ]);

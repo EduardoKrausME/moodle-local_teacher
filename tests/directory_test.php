@@ -65,8 +65,12 @@ final class directory_test extends advanced_testcase {
         directory::exclude($teacher->id);
         $this->assertNull(directory::get_teacher($teacher->id));
         $this->assertSame(0, directory::count());
+        $this->assertArrayNotHasKey($teacher->id, directory::get_teachers());
+        $this->assertArrayHasKey($teacher->id, directory::excluded());
         directory::include($teacher->id);
         $this->assertNotNull(directory::get_teacher($teacher->id));
+        $this->assertArrayHasKey($teacher->id, directory::get_teachers());
+        $this->assertArrayNotHasKey($teacher->id, directory::excluded());
     }
 
     /**
