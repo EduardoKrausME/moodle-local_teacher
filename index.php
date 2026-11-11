@@ -41,6 +41,8 @@ if (isloggedin() && !isguestuser()) {
     require_capability("local/teacher:view", $context);
 }
 
+$PAGE->set_context($context);
+
 $search = trim(optional_param("q", "", PARAM_TEXT));
 $search = core_text::substr($search, 0, 80);
 $categoryid = max(0, optional_param("category", 0, PARAM_INT));
@@ -72,7 +74,6 @@ $PAGE->set_url(new moodle_url("/local/teacher/index.php", [
     "sort" => $sort,
     "page" => $page,
 ]));
-$PAGE->set_context($context);
 $PAGE->set_pagelayout("standard");
 $PAGE->set_title(get_string("teachers", "local_teacher"));
 $PAGE->requires->css(new moodle_url("/local/teacher/styles.css"));
