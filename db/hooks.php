@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Required Moodle navigation callback.
+ * Registration of the primary navigation callback.
  *
  * @package    local_teacher
  * @copyright  2026 Eduardo Kraus {@link https://eduardokraus.com}
@@ -24,20 +24,9 @@
 
 defined("MOODLE_INTERNAL") || die();
 
-/**
- * Add the directory link to site navigation.
- *
- * @param global_navigation $navigation Moodle global navigation.
- */
-function local_teacher_extend_navigation(global_navigation $navigation): void {
-    if (!\local_teacher\directory::is_enabled()) {
-        return;
-    }
-    $navigation->add(
-        get_string("teachers", "local_teacher"),
-        new moodle_url("/local/teacher/index.php"),
-        navigation_node::TYPE_CUSTOM,
-        null,
-        "local_teacher_directory"
-    );
-}
+$callbacks = [
+    [
+        "hook" => \core\hook\navigation\primary_extend::class,
+        "callback" => [\local_teacher\hook_callbacks::class, "primary_navigation"],
+    ],
+];
