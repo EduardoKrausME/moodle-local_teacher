@@ -50,6 +50,32 @@ final class directory_test extends advanced_testcase {
     }
 
     /**
+     * Directory records contain all fields required by Moodle's user_picture API.
+     *
+     * Missing fields make user_picture query the database for each listed teacher.
+     */
+    public function test_directory_includes_user_picture_fields(): void {
+        global $DB;
+
+        $this->resetAfterTest();
+        $course = $this->getDataGenerator()->create_course();
+        $teacher = $this->getDataGenerator()->create_user();
+        $roleid = (int) $DB->get_field("role", "id", ["shortname" => "editingteacher"], MUST_EXIST);
+        set_config("roleids", (string) $roleid, "local_teacher");
+        role_assign($roleid, $teacher->id, context_course::instance($course->id)->id);
+
+        $users = directory::get_teachers();
+        $this->assertArrayHasKey($teacher->id, $users);
+        foreach (\core_user\fields::for_userpic()->with_name()->get_required_fields() as $field) {
+            $this->assertTrue(property_exists($users[$teacher->id], $field), "Missing user picture field: $field");
+        }
+        $this->assertSame($teacher->email, $users[$teacher->id]->email);
+
+        // The constructor must not issue a missing-field debugging warning.
+        new \core\output\user_picture($users[$teacher->id]);
+    }
+
+    /**
      * Confirm excluded teachers disappear from both endpoints.
      */
     public function test_exclusion_hides_teacher(): void {

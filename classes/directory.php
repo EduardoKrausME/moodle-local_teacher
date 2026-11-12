@@ -145,8 +145,9 @@ final class directory {
         global $DB;
         [$conditions, $params] = self::conditions($search, false, $categoryid);
         $direction = $sort === "za" ? "DESC" : "ASC";
-        $names = \core_user\fields::for_name()->get_sql("u", false, "", "", false)->selects;
-        $sql = "SELECT DISTINCT u.id, u.picture, u.imagealt, $names
+        // Include all fields required by user_picture and fullname without per-teacher lookups.
+        $userfields = fields::for_userpic()->with_name()->get_sql("u", false, "", "", false)->selects;
+        $sql = "SELECT DISTINCT $userfields
                   FROM {user} u
                   JOIN {role_assignments} ra ON ra.userid = u.id
                   JOIN {context} ctx ON ctx.id = ra.contextid AND ctx.contextlevel = :level
