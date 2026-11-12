@@ -2,20 +2,20 @@
     <header class="local-teacher-lead">
         <div class="local-teacher-lead-content">
             <h2>
-                {{#str}}directoryheadingprefix, local_teacher{{/str}}
-                <span>{{#str}}directoryheadingaccent, local_teacher{{/str}}</span>
+                {{headingprefix}}
+                <span>{{headingaccent}}</span>
             </h2>
-            <p>{{#str}}directoryintro, local_teacher{{/str}}</p>
+            <p>{{intro}}</p>
         </div>
-        <section class="local-teacher-toolbar" aria-label="{{#str}}filterstitle, local_teacher{{/str}}">
+        <section class="local-teacher-toolbar" aria-label="{{filterstitle}}">
             <form method="get" action="{{searchaction}}" class="local-teacher-filters" role="search">
                 <div class="local-teacher-filter-field local-teacher-filter-search">
-                    <label for="local-teacher-search-input">{{#str}}searchteachers, local_teacher{{/str}}</label>
+                    <label for="local-teacher-search-input">{{searchlabel}}</label>
                     <input id="local-teacher-search-input" class="form-control" type="search" maxlength="80"
                            name="q" value="{{search}}" autocomplete="off">
                 </div>
                 <button type="submit" class="btn btn-primary local-teacher-apply">
-                    {{#str}}applyfilters, local_teacher{{/str}}</button>
+                    {{applyfilters}}</button>
             </form>
         </section>
         <div class="local-teacher-lead-decoration" aria-hidden="true"></div>
@@ -37,7 +37,7 @@
                                       fill="none" stroke="currentColor" stroke-width="1.8"
                                       stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span>{{#str}}cardcourses, local_teacher{{/str}}</span>
+                            <span>{{cardcourses}}</span>
                         </div>
                         {{#hascourses}}
                             <ul class="local-teacher-course-list">
@@ -46,7 +46,7 @@
                             </ul>
                         {{/hascourses}}
                         <span class="local-teacher-card-action">
-                    {{#str}}viewteacherprofile, local_teacher{{/str}}
+                    {{viewteacherprofile}}
                             <span aria-hidden="true">&#8250;</span>
                 </span>
                     </div>
@@ -55,7 +55,7 @@
         </div>
     {{/hasteachers}}
     {{^hasteachers}}
-        <div class="local-teacher-empty" role="status">{{#str}}noteachers, local_teacher{{/str}}</div>
+        <div class="local-teacher-empty" role="status">{{emptylabel}}</div>
     {{/hasteachers}}
-    <nav class="local-teacher-pagination" aria-label="{{#str}}teachers, local_teacher{{/str}}">{{{paginghtml}}}</nav>
+    <nav class="local-teacher-pagination" aria-label="{{heading}}">{{{paginghtml}}}</nav>
 </div>

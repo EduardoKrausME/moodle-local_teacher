@@ -124,16 +124,31 @@ $courseitems = presentation::profile_courses($courses[$id] ?? []);
 $curriculum = profile_fields::get_public_data($id);
 $years = profile_fields::years_since_graduation($curriculum["graduation"]);
 $linkedinurl = profile_fields::linkedin_url($curriculum["linkedin"]);
+$fullname = fullname($teacher);
+$coursecount = count($courseitems);
 
 $data = [
-    "fullname" => fullname($teacher),
+    "fullname" => $fullname,
+    "backtodirectory" => get_string("backtodirectory", "local_teacher"),
+    "graduationlabel" => $years === null ? "" : get_string(
+        $years === 1 ? "yearsincegraduation" : "yearssincegraduation", "local_teacher", $years
+    ),
+    "coursecountlabel" => get_string("profilecoursecount", "local_teacher", $coursecount),
+    "editlabel" => get_string($isownprofile ? "editmydata" : "editteacherprofile", "local_teacher"),
+    "contactteacher" => get_string("contactteacher", "local_teacher"),
+    "viewlinkedin" => get_string("viewlinkedin", "local_teacher"),
+    "nobiography" => get_string("nobiography", "local_teacher"),
+    "profilecoursestitle" => get_string("profilecoursestitle", "local_teacher"),
+    "profilecoursesintro" => get_string("profilecoursesintro", "local_teacher", $fullname),
+    "coursedescriptionfallback" => get_string("coursedescriptionfallback", "local_teacher"),
+    "nocourses" => get_string("nocourses", "local_teacher"),
+    "yourmessage" => get_string("yourmessage", "local_teacher"),
+    "cancel" => get_string("cancel"),
+    "sendmessage" => get_string("sendmessage", "local_teacher"),
     "pictureurl" => presentation::picture_url($teacher, 512),
     "backurl" => (new moodle_url("/local/teacher/"))->out(false),
-    "years" => $years ?? 0,
     "hasexperience" => $years !== null,
-    "isoneyear" => $years === 1,
-    "coursecount" => count($courseitems),
-    "hasfivecourses" => count($courseitems) >= 5,
+    "hasfivecourses" => $coursecount >= 5,
     "haslinkedin" => $linkedinurl !== null,
     "linkedinurl" => $linkedinurl ?? "",
     "biohtml" => $bio,
@@ -143,7 +158,6 @@ $data = [
     "coursescards" => $courseitems,
     "cancontact" => $cancontact,
     "canedit" => $canedit,
-    "editownprofile" => $isownprofile,
     "editurl" => $editurl,
     "contactaction" => $url->out(false),
     "sesskey" => sesskey(),

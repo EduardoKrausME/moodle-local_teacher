@@ -2,10 +2,10 @@
     <header class="local-teacher-lead">
         <div class="local-teacher-lead-content">
             <h2>{{fullname}}</h2>
-            <nav class="local-teacher-profile-breadcrumb" aria-label="{{#str}}backtodirectory, local_teacher{{/str}}">
+            <nav class="local-teacher-profile-breadcrumb" aria-label="{{backtodirectory}}">
                 <a href="{{backurl}}">
                     <span aria-hidden="true">&#8592;</span>
-                    {{#str}}backtodirectory, local_teacher{{/str}}</a>
+                    {{backtodirectory}}</a>
                 <span class="local-teacher-breadcrumb-divider" aria-hidden="true">/</span>
                 <span aria-current="page">{{fullname}}</span>
             </nav>
@@ -19,14 +19,7 @@
                             <rect x="3" y="5" width="18" height="16" rx="2"/>
                             <path d="M8 3v4m8-4v4M3 10h18"/>
                         </svg>
-                        <span>
-                                {{#isoneyear}}
-                                    {{#str}}yearsincegraduation, local_teacher, {{years}}{{/str}}
-                                {{/isoneyear}}
-                            {{^isoneyear}}
-                                {{#str}}yearssincegraduation, local_teacher, {{years}}{{/str}}
-                            {{/isoneyear}}
-                            </span>
+                        <span>{{graduationlabel}}</span>
                     </div>
                 {{/hasexperience}}
                 <div class="local-teacher-cv-stat">
@@ -36,7 +29,7 @@
                         <path d="m2 9 10-5 10 5-10 5L2 9Z"/>
                         <path d="M6 11v5c3.5 3 8.5 3 12 0v-5"/>
                     </svg>
-                    <span>{{#str}}profilecoursecount, local_teacher, {{coursecount}}{{/str}}</span>
+                    <span>{{coursecountlabel}}</span>
                 </div>
             </div>
 
@@ -50,25 +43,20 @@
                                 <path d="M12 20h9"/>
                                 <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L9 17l-4 1 1-4Z"/>
                             </svg>
-                            {{#editownprofile}}
-                                {{#str}}editmydata, local_teacher{{/str}}
-                            {{/editownprofile}}
-                            {{^editownprofile}}
-                                {{#str}}editteacherprofile, local_teacher{{/str}}
-                            {{/editownprofile}}
+                            {{editlabel}}
                         </a>
                     {{/canedit}}
                     {{#cancontact}}
                         <button class="btn btn-primary local-teacher-cv-action-primary" type="button"
                                 data-action="local-teacher-contact-open"
-                                aria-haspopup="dialog">{{#str}}contactteacher, local_teacher{{/str}}
+                                aria-haspopup="dialog">{{contactteacher}}
                         </button>
                     {{/cancontact}}
                     {{#haslinkedin}}
                         <a class="btn btn-outline-primary local-teacher-cv-action-outline" href="{{linkedinurl}}"
                            target="_blank" rel="noopener noreferrer">
                             <span class="local-teacher-linkedin-icon" aria-hidden="true">in</span>
-                            {{#str}}viewlinkedin, local_teacher{{/str}}</a>
+                            {{viewlinkedin}}</a>
                     {{/haslinkedin}}
                 </div>
             </div>
@@ -87,7 +75,7 @@
                     <div class="local-teacher-bio-content">{{{biohtml}}}</div>
                 {{/hasbio}}
                 {{^hasbio}}
-                    <p class="local-teacher-cv-no-bio">{{#str}}nobiography, local_teacher{{/str}}</p>
+                    <p class="local-teacher-cv-no-bio">{{nobiography}}</p>
                 {{/hasbio}}
             </section>
         </div>
@@ -95,8 +83,8 @@
 
     <section class="local-teacher-courses-section" aria-labelledby="local-teacher-courses-heading">
         <div class="local-teacher-courses-heading">
-            <h2 id="local-teacher-courses-heading">{{#str}}profilecoursestitle, local_teacher{{/str}}</h2>
-            <p>{{#str}}profilecoursesintro, local_teacher, {{fullname}}{{/str}}</p>
+            <h2 id="local-teacher-courses-heading">{{profilecoursestitle}}</h2>
+            <p>{{profilecoursesintro}}</p>
         </div>
         {{#hascourses}}
             <div class="local-teacher-courses-grid{{#hasfivecourses}} local-teacher-courses-grid--five{{/hasfivecourses}}">
@@ -112,7 +100,7 @@
                                     {{summary}}
                                 {{/hassummary}}
                                 {{^hassummary}}
-                                    {{#str}}coursedescriptionfallback, local_teacher{{/str}}
+                                    {{coursedescriptionfallback}}
                                 {{/hassummary}}
                             </p>
                         </div>
@@ -121,7 +109,7 @@
             </div>
         {{/hascourses}}
         {{^hascourses}}
-            <div class="local-teacher-empty">{{#str}}nocourses, local_teacher{{/str}}</div>
+            <div class="local-teacher-empty">{{nocourses}}</div>
         {{/hascourses}}
     </section>
 
@@ -130,13 +118,12 @@
             <form class="local-teacher-contact-form" method="post" action="{{contactaction}}">
                 <input type="hidden" name="sesskey" value="{{sesskey}}">
                 <input type="hidden" name="action" value="send">
-                <label for="local-teacher-message">{{#str}}yourmessage, local_teacher{{/str}}</label>
+                <label for="local-teacher-message">{{yourmessage}}</label>
                 <textarea class="form-control" id="local-teacher-message" name="message" rows="5" minlength="1"
                           maxlength="2000" required></textarea>
                 <div class="local-teacher-contact-buttons">
-                    <button class="btn btn-secondary" type="button" data-action="local-teacher-contact-cancel">{{#str}}
-                        cancel, moodle{{/str}}</button>
-                    <button class="btn btn-primary" type="submit">{{#str}}sendmessage, local_teacher{{/str}}</button>
+                    <button class="btn btn-secondary" type="button" data-action="local-teacher-contact-cancel">{{cancel}}</button>
+                    <button class="btn btn-primary" type="submit">{{sendmessage}}</button>
                 </div>
             </form>
         </template>
