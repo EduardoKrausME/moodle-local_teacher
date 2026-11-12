@@ -1,7 +1,10 @@
 <div class="local-teacher-directory">
     <header class="local-teacher-lead">
         <div class="local-teacher-lead-content">
-            <h2>{{#str}}directoryheadingprefix, local_teacher{{/str}} <span>{{#str}}directoryheadingaccent, local_teacher{{/str}}</span></h2>
+            <h2>
+                {{#str}}directoryheadingprefix, local_teacher{{/str}}
+                <span>{{#str}}directoryheadingaccent, local_teacher{{/str}}</span>
+            </h2>
             <p>{{#str}}directoryintro, local_teacher{{/str}}</p>
         </div>
         <div class="local-teacher-lead-decoration" aria-hidden="true"></div>
@@ -12,51 +15,65 @@
             <div class="local-teacher-filter-field local-teacher-filter-search">
                 <label for="local-teacher-search-input">{{#str}}searchteachers, local_teacher{{/str}}</label>
                 <input id="local-teacher-search-input" class="form-control" type="search" maxlength="80"
-                    name="q" value="{{search}}" autocomplete="off">
+                       name="q" value="{{search}}" autocomplete="off">
             </div>
             <div class="local-teacher-filter-field local-teacher-filter-category">
                 <label for="local-teacher-category">{{#str}}filtercategory, local_teacher{{/str}}</label>
                 <select class="form-select" name="category" id="local-teacher-category">
-                    {{#categoryoptions}}<option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>{{/categoryoptions}}
+                    {{#categoryoptions}}
+                        <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+                    {{/categoryoptions}}
                 </select>
             </div>
             <div class="local-teacher-filter-field local-teacher-filter-sort">
                 <label for="local-teacher-sort">{{#str}}sortby, local_teacher{{/str}}</label>
                 <select class="form-select" name="sort" id="local-teacher-sort">
-                    {{#sortoptions}}<option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>{{/sortoptions}}
+                    {{#sortoptions}}
+                        <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+                    {{/sortoptions}}
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary local-teacher-apply">{{#str}}applyfilters, local_teacher{{/str}}</button>
+            <button type="submit" class="btn btn-primary local-teacher-apply">
+                {{#str}}applyfilters, local_teacher{{/str}}</button>
         </form>
         <p class="local-teacher-count" aria-live="polite">{{#str}}teachercount, local_teacher, {{total}}{{/str}}</p>
     </section>
 
     {{#hasteachers}}
-    <div class="local-teacher-grid">
-        {{#teachers}}
-        <a class="local-teacher-card" href="{{profileurl}}" aria-label="{{fullname}}">
-            <div class="local-teacher-card-photo">
-                <img src="{{pictureurl}}" alt="{{fullname}}" class="local-teacher-avatar" loading="lazy" width="180" height="210">
-            </div>
-            <div class="local-teacher-card-body">
-                <h3 title="{{fullname}}">{{fullname}}</h3>
-                <div class="local-teacher-card-courses-title">
-                    <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false">
-                        <path d="M2 9.3 12 4l10 5.3-10 5.4L2 9.3Zm4 3.3v5.2c3.4 2.5 8.6 2.5 12 0v-5.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span>{{#str}}cardcourses, local_teacher{{/str}}</span>
-                </div>
-                {{#hascourses}}
-                <ul class="local-teacher-course-list">
-                    {{#courses}}<li title="{{name}}">{{name}}</li>{{/courses}}
-                </ul>
-                {{/hascourses}}
-                <span class="local-teacher-card-action">{{#str}}viewteacherprofile, local_teacher{{/str}} <span aria-hidden="true">&#8250;</span></span>
-            </div>
-        </a>
-        {{/teachers}}
-    </div>
+        <div class="local-teacher-grid">
+            {{#teachers}}
+                <a class="local-teacher-card" href="{{profileurl}}" aria-label="{{fullname}}">
+                    <div class="local-teacher-card-photo">
+                        <img src="{{pictureurl}}" alt="{{fullname}}" class="local-teacher-avatar" loading="lazy"
+                             width="180" height="210">
+                    </div>
+                    <div class="local-teacher-card-body">
+                        <h3 title="{{fullname}}">{{fullname}}</h3>
+                        <div class="local-teacher-card-courses-title">
+                            <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false">
+                                <path d="M2 9.3 12 4l10 5.3-10 5.4L2 9.3Zm4 3.3v5.2c3.4 2.5 8.6 2.5 12 0v-5.2"
+                                      fill="none" stroke="currentColor" stroke-width="1.8"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>{{#str}}cardcourses, local_teacher{{/str}}</span>
+                        </div>
+                        {{#hascourses}}
+                            <ul class="local-teacher-course-list">
+                                {{#courses}}
+                                    <li title="{{name}}">{{name}}</li>{{/courses}}
+                            </ul>
+                        {{/hascourses}}
+                        <span class="local-teacher-card-action">
+                    {{#str}}viewteacherprofile, local_teacher{{/str}}
+                            <span aria-hidden="true">&#8250;</span>
+                </span>
+                    </div>
+                </a>
+            {{/teachers}}
+        </div>
     {{/hasteachers}}
-    {{^hasteachers}}<div class="local-teacher-empty" role="status">{{#str}}noteachers, local_teacher{{/str}}</div>{{/hasteachers}}
+    {{^hasteachers}}
+        <div class="local-teacher-empty" role="status">{{#str}}noteachers, local_teacher{{/str}}</div>
+    {{/hasteachers}}
     <nav class="local-teacher-pagination" aria-label="{{#str}}teachers, local_teacher{{/str}}">{{{paginghtml}}}</nav>
 </div>

@@ -17,14 +17,17 @@
                         <input type="hidden" name="sesskey" value="{{sesskey}}">
                         <input type="hidden" name="action" value="exclude">
                         <input type="hidden" name="userid" value="{{id}}">
-                        <button class="btn btn-outline-danger btn-sm" type="submit">{{#str}}excludeteacher, local_teacher{{/str}}</button>
+                        <button class="btn btn-outline-danger btn-sm"
+                                type="submit">{{#str}}excludeteacher, local_teacher{{/str}}</button>
                     </form>
                 </li>
             {{/results}}
         </ul>
     {{/haveresults}}
     <h3>{{#str}}excludedteachers, local_teacher{{/str}}</h3>
-    {{^haveexcluded}}<p>{{#str}}noexcluded, local_teacher{{/str}}</p>{{/haveexcluded}}
+    {{^haveexcluded}}
+        <p>{{#str}}noexcluded, local_teacher{{/str}}</p>
+    {{/haveexcluded}}
     {{#haveexcluded}}
         <ul class="local-teacher-admin-list">
             {{#excluded}}
@@ -33,7 +36,8 @@
                         <input type="hidden" name="sesskey" value="{{sesskey}}">
                         <input type="hidden" name="action" value="include">
                         <input type="hidden" name="userid" value="{{id}}">
-                        <button class="btn btn-outline-secondary btn-sm" type="submit">{{#str}}includeteacher, local_teacher{{/str}}</button>
+                        <button class="btn btn-outline-secondary btn-sm"
+                                type="submit">{{#str}}includeteacher, local_teacher{{/str}}</button>
                     </form>
                 </li>
             {{/excluded}}
