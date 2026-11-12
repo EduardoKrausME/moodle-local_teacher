@@ -524,6 +524,11 @@
         justify-content: space-between;
         flex-wrap: wrap;
         margin: 0 0 1.45rem;
+        padding: 1.1rem;
+        border: 1px solid var(--teacher-border);
+        border-radius: 1.05rem;
+        background: color-mix(in srgb, var(--teacher-surface) 38%, transparent);
+        box-shadow: 0 8px 22px rgb(20 38 62 / .05);
     }
     .local-teacher-filters {
         display: flex;
