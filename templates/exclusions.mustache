@@ -1,12 +1,12 @@
 <div class="local-teacher-admin">
-    <h2>{{exclusionslabel}}</h2>
-    <p>{{exclusionsdesc}}</p>
+    <h2>{{#str}}exclusions, local_teacher{{/str}}</h2>
+    <p>{{#str}}exclusionsdesc, local_teacher{{/str}}</p>
     <form action="{{searchaction}}" method="get" class="local-teacher-search">
-        <label for="local-teacher-admin-search">{{searchlabel}}</label>
+        <label for="local-teacher-admin-search">{{#str}}searchteachers, local_teacher{{/str}}</label>
         <div class="local-teacher-search-row">
             <input class="form-control" type="search" name="q" id="local-teacher-admin-search" value="{{search}}"
                    maxlength="80">
-            <button class="btn btn-primary" type="submit">{{searchbutton}}</button>
+            <button class="btn btn-primary" type="submit">{{#str}}search, moodle{{/str}}</button>
         </div>
     </form>
     {{#haveresults}}
@@ -18,15 +18,15 @@
                         <input type="hidden" name="action" value="exclude">
                         <input type="hidden" name="userid" value="{{id}}">
                         <button class="btn btn-outline-danger btn-sm"
-                                type="submit">{{excludelabel}}</button>
+                                type="submit">{{#str}}excludeteacher, local_teacher{{/str}}</button>
                     </form>
                 </li>
             {{/results}}
         </ul>
     {{/haveresults}}
-    <h3>{{excludedtitle}}</h3>
+    <h3>{{#str}}excludedteachers, local_teacher{{/str}}</h3>
     {{^haveexcluded}}
-        <p>{{noexcluded}}</p>
+        <p>{{#str}}noexcluded, local_teacher{{/str}}</p>
     {{/haveexcluded}}
     {{#haveexcluded}}
         <ul class="local-teacher-admin-list">
@@ -37,7 +37,7 @@
                         <input type="hidden" name="action" value="include">
                         <input type="hidden" name="userid" value="{{id}}">
                         <button class="btn btn-outline-secondary btn-sm"
-                                type="submit">{{includelabel}}</button>
+                                type="submit">{{#str}}includeteacher, local_teacher{{/str}}</button>
                     </form>
                 </li>
             {{/excluded}}

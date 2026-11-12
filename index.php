@@ -71,20 +71,10 @@ $pagingbar = new paging_bar($total, $page, $pagesize, $baseurl, "page");
 
 $data = [
     "total" => $total,
-    "heading" => get_string("teachers", "local_teacher"),
-    "headingprefix" => get_string("directoryheadingprefix", "local_teacher"),
-    "headingaccent" => get_string("directoryheadingaccent", "local_teacher"),
-    "intro" => get_string("directoryintro", "local_teacher"),
-    "filterstitle" => get_string("filterstitle", "local_teacher"),
-    "applyfilters" => get_string("applyfilters", "local_teacher"),
-    "cardcourses" => get_string("cardcourses", "local_teacher"),
-    "viewteacherprofile" => get_string("viewteacherprofile", "local_teacher"),
-    "searchlabel" => get_string("searchteachers", "local_teacher"),
     "search" => $search,
     "searchaction" => (new moodle_url("/local/teacher/"))->out(false),
     "teachers" => $cards,
     "hasteachers" => !empty($cards),
-    "emptylabel" => get_string("noteachers", "local_teacher"),
     "paginghtml" => $OUTPUT->render($pagingbar),
 ];
 
