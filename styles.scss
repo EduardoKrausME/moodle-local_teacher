@@ -454,30 +454,6 @@
         @media (max-width:640px) {
             align-items: flex-start;
         }
-
-    }
-
-    .local-teacher-cv-name {
-        min-width: 0;
-    }
-
-    .local-teacher-cv-eyebrow {
-        margin: 0 0 .35rem;
-        font-size: .78rem;
-        font-weight: 800;
-        letter-spacing: .1em;
-        text-transform: uppercase;
-        color: var(--teacher-accent);
-    }
-
-    .local-teacher-cv-name h2 {
-        margin: 0 0 .55rem;
-        color: var(--teacher-ink);
-        font-size: clamp(2rem, 3.4vw, 3rem);
-        letter-spacing: -.055em;
-        font-weight: 850;
-        line-height: 1.13;
-        overflow-wrap: anywhere;
     }
 
     .local-teacher-cv-subtitle {
@@ -543,10 +519,11 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+        justify-content: space-between;
         gap: .65rem 1.4rem;
         margin: 1.25rem 0 0;
         padding: 0 0 1.1rem;
-        border-bottom: 1px solid var(--teacher-border);
+        border-top: 1px solid var(--teacher-border);
         @media (max-width:640px) {
             margin-top: 1rem;
         }

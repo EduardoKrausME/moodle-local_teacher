@@ -29,7 +29,6 @@ $string['allowcontact'] = 'Enable contact form';
 $string['allowguest_desc'] = 'If enabled, guests can view teacher names, profile photographs, descriptions and visible course names. Contact requires a signed-in account.';
 $string['allowguest'] = 'Allow visitors without an account';
 $string['backtodirectory'] = 'All teachers';
-$string['biography'] = 'Professional biography';
 $string['contactteacher'] = 'Send a message';
 $string['contactunavailable'] = 'Messaging is not available for this teacher.';
 $string['coursedescriptionfallback'] = 'Discover more about this course.';

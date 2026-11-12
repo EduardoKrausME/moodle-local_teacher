@@ -29,7 +29,6 @@ $string['allowcontact'] = 'Ativar caixa de mensagens';
 $string['allowguest_desc'] = 'Quando ativado, visitantes podem visualizar nomes, fotografias, biografias e nomes dos cursos visíveis. Para entrar em contato é necessário fazer login.';
 $string['allowguest'] = 'Permitir acesso sem login';
 $string['backtodirectory'] = 'Todos os professores';
-$string['biography'] = 'Currículo profissional';
 $string['contactteacher'] = 'Enviar mensagem';
 $string['contactunavailable'] = 'A troca de mensagens não está disponível para este professor.';
 $string['coursedescriptionfallback'] = 'Conheça mais sobre este curso.';
