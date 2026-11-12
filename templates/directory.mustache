@@ -7,37 +7,19 @@
             </h2>
             <p>{{#str}}directoryintro, local_teacher{{/str}}</p>
         </div>
+        <section class="local-teacher-toolbar" aria-label="{{#str}}filterstitle, local_teacher{{/str}}">
+            <form method="get" action="{{searchaction}}" class="local-teacher-filters" role="search">
+                <div class="local-teacher-filter-field local-teacher-filter-search">
+                    <label for="local-teacher-search-input">{{#str}}searchteachers, local_teacher{{/str}}</label>
+                    <input id="local-teacher-search-input" class="form-control" type="search" maxlength="80"
+                           name="q" value="{{search}}" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary local-teacher-apply">
+                    {{#str}}applyfilters, local_teacher{{/str}}</button>
+            </form>
+        </section>
         <div class="local-teacher-lead-decoration" aria-hidden="true"></div>
     </header>
-
-    <section class="local-teacher-toolbar" aria-label="{{#str}}filterstitle, local_teacher{{/str}}">
-        <form method="get" action="{{searchaction}}" class="local-teacher-filters" role="search">
-            <div class="local-teacher-filter-field local-teacher-filter-search">
-                <label for="local-teacher-search-input">{{#str}}searchteachers, local_teacher{{/str}}</label>
-                <input id="local-teacher-search-input" class="form-control" type="search" maxlength="80"
-                       name="q" value="{{search}}" autocomplete="off">
-            </div>
-            <div class="local-teacher-filter-field local-teacher-filter-category">
-                <label for="local-teacher-category">{{#str}}filtercategory, local_teacher{{/str}}</label>
-                <select class="form-select" name="category" id="local-teacher-category">
-                    {{#categoryoptions}}
-                        <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
-                    {{/categoryoptions}}
-                </select>
-            </div>
-            <div class="local-teacher-filter-field local-teacher-filter-sort">
-                <label for="local-teacher-sort">{{#str}}sortby, local_teacher{{/str}}</label>
-                <select class="form-select" name="sort" id="local-teacher-sort">
-                    {{#sortoptions}}
-                        <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
-                    {{/sortoptions}}
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary local-teacher-apply">
-                {{#str}}applyfilters, local_teacher{{/str}}</button>
-        </form>
-        <p class="local-teacher-count" aria-live="polite">{{#str}}teachercount, local_teacher, {{total}}{{/str}}</p>
-    </section>
 
     {{#hasteachers}}
         <div class="local-teacher-grid">

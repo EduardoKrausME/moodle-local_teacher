@@ -82,7 +82,7 @@ final class directory {
      * @param bool $excluded Whether excluded teachers should be included.
      * @return array{0:string,1:array}
      */
-    private static function conditions(string $search = "", bool $excluded = false, int $categoryid = 0): array {
+    private static function conditions(string $search = "", bool $excluded = false): array {
         global $DB;
 
         $roleids = self::role_ids();
@@ -96,10 +96,6 @@ final class directory {
             $condition .= " AND NOT EXISTS (
                 SELECT 1 FROM {local_teacher_excluded} exclusions WHERE exclusions.userid = u.id
             )";
-        }
-        if ($categoryid > 0) {
-            $condition .= " AND c.category = :teachercategory";
-            $params["teachercategory"] = $categoryid;
         }
         if ($search !== "") {
             $like = "%" . $DB->sql_like_escape($search) . "%";
@@ -119,9 +115,9 @@ final class directory {
      * @param string $search Search terms.
      * @return int
      */
-    public static function count(string $search = "", int $categoryid = 0): int {
+    public static function count(string $search = ""): int {
         global $DB;
-        [$conditions, $params] = self::conditions($search, false, $categoryid);
+        [$conditions, $params] = self::conditions($search, false);
         $sql = "SELECT COUNT(DISTINCT u.id)
                   FROM {user} u
                   JOIN {role_assignments} ra ON ra.userid = u.id
@@ -140,11 +136,9 @@ final class directory {
      * @param int $pagesize Maximum members per page.
      * @return array
      */
-    public static function get_teachers(string $search = "", int $page = 0, int $pagesize = 18,
-            int $categoryid = 0, string $sort = "az"): array {
+    public static function get_teachers(string $search = "", int $page = 0, int $pagesize = 18): array {
         global $DB;
-        [$conditions, $params] = self::conditions($search, false, $categoryid);
-        $direction = $sort === "za" ? "DESC" : "ASC";
+        [$conditions, $params] = self::conditions($search, false);
         // Include all fields required by user_picture and fullname without per-teacher lookups.
         $userfields = fields::for_userpic()->with_name()->get_sql("u", false, "", "", false)->selects;
         $sql = "SELECT DISTINCT $userfields
@@ -153,7 +147,7 @@ final class directory {
                   JOIN {context} ctx ON ctx.id = ra.contextid AND ctx.contextlevel = :level
                   JOIN {course} c ON c.id = ctx.instanceid
                  WHERE $conditions
-              ORDER BY u.lastname $direction, u.firstname $direction, u.id $direction";
+              ORDER BY u.lastname ASC, u.firstname ASC, u.id ASC";
         $params["level"] = CONTEXT_COURSE;
         return $DB->get_records_sql($sql, $params, max(0, $page) * $pagesize, $pagesize);
     }
