@@ -133,6 +133,7 @@ $data = [
     "hasexperience" => $years !== null,
     "isoneyear" => $years === 1,
     "coursecount" => count($courseitems),
+    "hasfivecourses" => count($courseitems) >= 5,
     "haslinkedin" => $linkedinurl !== null,
     "linkedinurl" => $linkedinurl ?? "",
     "biohtml" => $bio,

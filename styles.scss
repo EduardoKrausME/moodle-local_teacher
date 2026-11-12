@@ -612,8 +612,15 @@
 
     .local-teacher-courses-grid {
         display: grid;
-        grid-template-columns: repeat(4,minmax(0,1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 1rem;
+
+        &.local-teacher-courses-grid--five {
+            @media (min-width: 1201px) {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+            }
+        }
+
         @media (max-width:1200px) {
             grid-template-columns: repeat(3,minmax(0,1fr));
         }

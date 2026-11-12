@@ -90,7 +90,7 @@
             <p>{{#str}}profilecoursesintro, local_teacher, {{fullname}}{{/str}}</p>
         </div>
         {{#hascourses}}
-            <div class="local-teacher-courses-grid">
+            <div class="local-teacher-courses-grid{{#hasfivecourses}} local-teacher-courses-grid--five{{/hasfivecourses}}">
                 {{#coursescards}}
                     <article class="local-teacher-course-card">
                         <div class="local-teacher-course-cover">

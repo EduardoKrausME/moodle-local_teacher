@@ -570,8 +570,14 @@
 
 .path-local-teacher .local-teacher-courses-grid {
     display: grid;
-    grid-template-columns: repeat(4,minmax(0,1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1rem;
+}
+
+@media (min-width: 1201px) {
+    .path-local-teacher .local-teacher-courses-grid.local-teacher-courses-grid--five {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
 }
 
 .path-local-teacher .local-teacher-course-card {
