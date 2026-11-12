@@ -13,10 +13,12 @@
             font-weight: 750;
             letter-spacing: -.025em;
         }
+
         p {
             color: var(--bs-secondary-color, #626D7A);
             margin: 0;
         }
+
     }
 
     .local-teacher-search {
@@ -26,6 +28,7 @@
             font-weight: 650;
             margin-bottom: .4rem;
         }
+
     }
 
     .local-teacher-search-row {
@@ -35,9 +38,11 @@
             min-width: 0;
             flex: 1 1 auto;
         }
+
         @media (max-width: 440px) {
             flex-direction: column;
         }
+
     }
 
     .local-teacher-count {
@@ -53,6 +58,7 @@
         @media (max-width: 767px) {
             grid-template-columns: 1fr;
         }
+
     }
 
     .local-teacher-card {
@@ -73,16 +79,20 @@
             border-color: var(--bs-primary, #1769AA);
             box-shadow: 0 10px 32px rgba(15, 23, 42, .09);
         }
+
         &:focus-visible {
             outline: 3px solid var(--bs-primary, #1769AA);
             outline-offset: 3px;
         }
+
         @media (max-width: 440px) {
             padding: 1rem;
         }
+
         @media (prefers-reduced-motion: reduce) {
             transition: none;
         }
+
     }
 
     .local-teacher-card-head {
@@ -104,6 +114,7 @@
             width: 72px;
             height: 72px;
         }
+
     }
 
     .local-teacher-card-heading {
@@ -114,6 +125,7 @@
             margin: 0 0 .3rem;
             line-height: 1.35;
         }
+
     }
 
     .local-teacher-role {
@@ -139,6 +151,7 @@
             font-size: .81rem;
             overflow-wrap: anywhere;
         }
+
     }
 
     .local-teacher-pagination {
@@ -164,9 +177,11 @@
             padding: 1.2rem;
             gap: 1rem;
         }
+
         @media (max-width: 440px) {
             flex-direction: column;
         }
+
     }
 
     .local-teacher-profile-avatar {
@@ -181,6 +196,7 @@
             height: 100px;
             border-radius: .75rem;
         }
+
     }
 
     .local-teacher-profile-heading {
@@ -191,6 +207,7 @@
             line-height: 1.2;
             margin: 0 0 .65rem;
         }
+
     }
 
     .local-teacher-profile-subtitle {
@@ -213,6 +230,7 @@
             margin-left: .65rem;
             color: var(--bs-secondary-color, #7C8695);
         }
+
     }
 
     .local-teacher-profile-grid {
@@ -223,6 +241,7 @@
         @media (max-width: 767px) {
             grid-template-columns: minmax(0, 1fr);
         }
+
     }
 
     .local-teacher-section {
@@ -237,9 +256,11 @@
             font-weight: 700;
             margin: 0 0 1rem;
         }
+
         @media (max-width: 767px) {
             padding: 1.2rem;
         }
+
     }
 
     .local-teacher-bio-content {
@@ -248,6 +269,7 @@
             max-width: 100%;
             height: auto;
         }
+
     }
 
     .local-teacher-profile-course-links {
@@ -256,6 +278,7 @@
         li {
             margin: 0 0 .6rem;
         }
+
     }
 
     .local-teacher-contact {
@@ -264,12 +287,15 @@
             font-weight: 600;
             margin-bottom: .45rem;
         }
+
         textarea {
             resize: vertical;
         }
+
         button {
             margin-top: .85rem;
         }
+
     }
 
     .local-teacher-admin-list {
@@ -285,13 +311,17 @@
             align-items: center;
             gap: 1rem;
         }
+
         li + li {
             border-top: 1px solid var(--bs-border-color, #E5E7EB);
         }
+
         small {
             color: var(--bs-secondary-color, #718096);
         }
+
     }
+
 }
 
 /* Curriculum: teacher biography, statistics, and course cards. */
@@ -323,9 +353,11 @@
             font-weight: 700;
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
         }
+
     }
 
     .local-teacher-breadcrumb-divider {
@@ -342,6 +374,21 @@
         border-radius: 1.35rem;
         background: var(--teacher-surface);
         box-shadow: 0 8px 25px rgba(20,38,62,.065);
+        @media (max-width:1200px) {
+            grid-template-columns: minmax(210px,270px) minmax(0,1fr);
+        }
+
+        @media (max-width:991px) {
+            grid-template-columns: minmax(165px,230px) minmax(0,1fr);
+            gap: 1.2rem;
+            padding: 1.1rem;
+        }
+
+        @media (max-width:640px) {
+            grid-template-columns: minmax(0,1fr);
+            gap: 1rem;
+        }
+
     }
 
     .local-teacher-cv-photo {
@@ -357,7 +404,38 @@
             max-height: 460px;
             object-fit: cover;
             object-position: center;
+            @media (max-width:640px) {
+                width: 100%;
+                height: 100%;
+                max-height: 100%;
+                object-fit: cover;
+                object-position: center 25%;
+            }
+
         }
+
+        @media (max-width:991px) {
+            min-height: 270px;
+        }
+
+        @media (max-width:640px) {
+            width: 100%;
+            max-width: none;
+            height: clamp(260px,65vw,340px);
+            max-height: 340px;
+            min-height: 0;
+        }
+
+        @media (max-width:480px) {
+            width: 100vw;
+            max-width: none;
+            height: clamp(280px,92vw,360px);
+            max-height: 360px;
+            min-height: 0;
+            margin-left: calc(50% - 50vw);
+            border-radius: 0;
+        }
+
     }
 
     .local-teacher-cv-content {
@@ -373,6 +451,10 @@
         align-items: center;
         flex-wrap: wrap;
         gap: 1rem;
+        @media (max-width:640px) {
+            align-items: flex-start;
+        }
+
     }
 
     .local-teacher-cv-name {
@@ -428,6 +510,11 @@
             font-weight: 750;
             white-space: nowrap;
         }
+
+        @media (max-width:991px) {
+            width: 100%;
+        }
+
     }
 
     .local-teacher-cv-action-primary {
@@ -460,6 +547,10 @@
         margin: 1.25rem 0 0;
         padding: 0 0 1.1rem;
         border-bottom: 1px solid var(--teacher-border);
+        @media (max-width:640px) {
+            margin-top: 1rem;
+        }
+
     }
 
     .local-teacher-cv-stat {
@@ -480,14 +571,17 @@
             font-weight: 800;
             letter-spacing: -.02em;
         }
+
         .local-teacher-bio-content {
             font-size: .97rem;
             line-height: 1.7;
             color: var(--teacher-ink);
         }
+
         .local-teacher-bio-content p:last-child {
             margin-bottom: 0;
         }
+
     }
 
     .local-teacher-cv-no-bio {
@@ -506,18 +600,32 @@
             font-weight: 850;
             letter-spacing: -.045em;
         }
+
         p {
             margin: 0;
             color: var(--teacher-muted);
             font-size: .99rem;
             line-height: 1.6;
         }
+
     }
 
     .local-teacher-courses-grid {
         display: grid;
         grid-template-columns: repeat(4,minmax(0,1fr));
         gap: 1rem;
+        @media (max-width:1200px) {
+            grid-template-columns: repeat(3,minmax(0,1fr));
+        }
+
+        @media (max-width:991px) {
+            grid-template-columns: repeat(2,minmax(0,1fr));
+        }
+
+        @media (max-width:640px) {
+            grid-template-columns: 1fr;
+        }
+
     }
 
     .local-teacher-course-card {
@@ -536,6 +644,43 @@
             border-color: var(--teacher-accent);
             box-shadow: 0 12px 24px rgba(20,38,62,.1);
         }
+
+        @media (prefers-reduced-motion:reduce) {
+            transition: none;
+        }
+
+        h3 {
+            margin: 0 0 .45rem;
+            font-size: 1.06rem;
+            font-weight: 800;
+            line-height: 1.32;
+        }
+
+        h3 a {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: var(--teacher-ink);
+            text-decoration: none;
+        }
+
+        h3 a:hover {
+            color: var(--teacher-accent);
+        }
+
+        p {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 3.65em;
+            margin: 0 0 .85rem;
+            color: var(--teacher-muted);
+            font-size: .84rem;
+            line-height: 1.45;
+        }
+
     }
 
     .local-teacher-course-cover {
@@ -551,6 +696,7 @@
             height: 100%;
             object-fit: cover;
         }
+
     }
 
     .local-teacher-course-card-body {
@@ -559,37 +705,6 @@
         flex-direction: column;
         min-width: 0;
         padding: .65rem .3rem .2rem;
-    }
-
-    .local-teacher-course-card {
-        h3 {
-            margin: 0 0 .45rem;
-            font-size: 1.06rem;
-            font-weight: 800;
-            line-height: 1.32;
-        }
-        h3 a {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            color: var(--teacher-ink);
-            text-decoration: none;
-        }
-        h3 a:hover {
-            color: var(--teacher-accent);
-        }
-        p {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            min-height: 3.65em;
-            margin: 0 0 .85rem;
-            color: var(--teacher-muted);
-            font-size: .84rem;
-            line-height: 1.45;
-        }
     }
 
     .local-teacher-course-cta {
@@ -611,6 +726,7 @@
             color: #fff;
             text-decoration: none;
         }
+
     }
 
     .local-teacher-cv-contact {
@@ -622,98 +738,12 @@
             margin: 0 0 1rem;
             font-weight: 800;
         }
+
     }
 
     .local-teacher-course-cta:focus-visible, .local-teacher-cv-actions a:focus-visible, .local-teacher-profile-breadcrumb a:focus-visible {
         outline: 3px solid var(--teacher-accent);
         outline-offset: 3px;
-    }
-
-    @media (max-width:1200px) {
-        .local-teacher-cv {
-            grid-template-columns: minmax(210px,270px) minmax(0,1fr);
-        }
-
-        .local-teacher-courses-grid {
-            grid-template-columns: repeat(3,minmax(0,1fr));
-        }
-
-    }
-
-    @media (max-width:991px) {
-        .local-teacher-cv {
-            grid-template-columns: minmax(165px,230px) minmax(0,1fr);
-            gap: 1.2rem;
-            padding: 1.1rem;
-        }
-
-        .local-teacher-cv-photo {
-            min-height: 270px;
-        }
-
-        .local-teacher-courses-grid {
-            grid-template-columns: repeat(2,minmax(0,1fr));
-        }
-
-        .local-teacher-cv-actions {
-            width: 100%;
-        }
-
-    }
-
-    @media (max-width:640px) {
-        .local-teacher-cv {
-            grid-template-columns: minmax(0,1fr);
-            gap: 1rem;
-        }
-
-        .local-teacher-cv-photo {
-            width: 100%;
-            max-width: none;
-            height: clamp(260px,65vw,340px);
-            max-height: 340px;
-            min-height: 0;
-            img {
-                width: 100%;
-                height: 100%;
-                max-height: 100%;
-                object-fit: cover;
-                object-position: center 25%;
-            }
-        }
-
-        .local-teacher-cv-heading-row {
-            align-items: flex-start;
-        }
-
-        .local-teacher-cv-stats {
-            margin-top: 1rem;
-        }
-
-        .local-teacher-courses-grid {
-            grid-template-columns: 1fr;
-        }
-
-    }
-
-    @media (max-width:480px) {
-        .local-teacher-cv-photo {
-            width: 100vw;
-            max-width: none;
-            height: clamp(280px,92vw,360px);
-            max-height: 360px;
-            min-height: 0;
-            margin-left: calc(50% - 50vw);
-            border-radius: 0;
-        }
-
-    }
-
-    @media (prefers-reduced-motion:reduce) {
-        .local-teacher-course-card {
-            transition: none;
-        }
-
     }
 
 }
@@ -743,15 +773,11 @@
         background: linear-gradient(108deg,var(--teacher-surface) 0%,var(--teacher-tint) 67%,color-mix(in srgb,var(--teacher-accent) 19%,var(--teacher-surface)) 100%);
         border: 1px solid var(--teacher-border);
         border-radius: 1.45rem;
-    }
+        @media (max-width:480px) {
+            min-height: 170px;
+            padding: 1.4rem;
+        }
 
-    .local-teacher-lead-content {
-        position: relative;
-        z-index: 1;
-        max-width: 730px;
-    }
-
-    .local-teacher-lead {
         h2 {
             margin: 0 0 .7rem;
             color: var(--teacher-ink);
@@ -760,9 +786,11 @@
             letter-spacing: -.05em;
             line-height: 1.13;
         }
+
         h2 span {
             color: var(--teacher-accent);
         }
+
         p {
             max-width: 680px;
             margin: 0;
@@ -770,6 +798,13 @@
             font-size: clamp(.98rem,1.25vw,1.12rem);
             line-height: 1.55;
         }
+
+    }
+
+    .local-teacher-lead-content {
+        position: relative;
+        z-index: 1;
+        max-width: 730px;
     }
 
     .local-teacher-lead-decoration {
@@ -782,6 +817,10 @@
         border: 54px solid color-mix(in srgb,var(--teacher-accent) 14%,transparent);
         pointer-events: none;
         z-index: -1;
+        @media (max-width:767px) {
+            opacity: .25;
+        }
+
     }
 
     .local-teacher-toolbar {
@@ -799,6 +838,10 @@
         align-items: end;
         flex: 1 1 760px;
         flex-wrap: wrap;
+        @media (max-width:480px) {
+            flex-basis: 100%;
+        }
+
     }
 
     .local-teacher-filter-field {
@@ -812,6 +855,11 @@
             font-weight: 700;
             font-size: .85rem;
         }
+
+        @media (max-width:480px) {
+            flex-basis: 100%;
+        }
+
     }
 
     .local-teacher-filter-search {
@@ -848,6 +896,10 @@
         white-space: nowrap;
         border-radius: .78rem;
         font-weight: 750;
+        @media (max-width:480px) {
+            width: 100%;
+        }
+
     }
 
     .local-teacher-count {
@@ -855,12 +907,25 @@
         color: var(--teacher-muted);
         font-size: .86rem;
         white-space: nowrap;
+        @media (max-width:767px) {
+            flex: 1 1 100%;
+            margin: 0;
+        }
+
     }
 
     .local-teacher-grid {
         display: grid;
         grid-template-columns: repeat(3,minmax(0,1fr));
         gap: 1.1rem;
+        @media (max-width:1199px) {
+            grid-template-columns: repeat(2,minmax(0,1fr));
+        }
+
+        @media (max-width:767px) {
+            grid-template-columns: 1fr;
+        }
+
     }
 
     .local-teacher-card {
@@ -884,6 +949,18 @@
             transform: translateY(-3px);
             text-decoration: none;
         }
+
+        @media (max-width:480px) {
+            grid-template-columns: minmax(0,37%) minmax(0,1fr);
+            gap: .75rem;
+            padding: .65rem;
+            min-height: 208px;
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            transition: none;
+        }
+
     }
 
     .local-teacher-card:focus-visible, .local-teacher-back:focus-visible, .local-teacher-profile-course-links a:focus-visible {
@@ -906,6 +983,10 @@
         object-fit: cover;
         object-position: center;
         border-radius: 0;
+        @media (max-width:480px) {
+            min-height: 194px;
+        }
+
     }
 
     .local-teacher-card-body {
@@ -924,7 +1005,12 @@
             line-height: 1.16;
             letter-spacing: -.035em;
             overflow-wrap: anywhere;
+            @media (max-width:480px) {
+                font-size: 1.08rem;
+            }
+
         }
+
     }
 
     .local-teacher-card-courses-title {
@@ -939,12 +1025,18 @@
             flex: 0 0 18px;
             color: var(--teacher-accent);
         }
+
         span {
             min-width: 0;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        @media (max-width:480px) {
+            font-size: .72rem;
+        }
+
     }
 
     .local-teacher-course-list {
@@ -972,7 +1064,13 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow-wrap: normal;
+            @media (max-width:480px) {
+                font-size: .71rem;
+                padding: .22rem .55rem;
+            }
+
         }
+
     }
 
     .local-teacher-card-action {
@@ -1019,10 +1117,12 @@
             flex-wrap: wrap;
             gap: .35rem;
         }
+
         .page-link {
             border-radius: .68rem;
             font-weight: 700;
         }
+
     }
 
     .local-teacher-back {
@@ -1046,6 +1146,16 @@
         border: 1px solid var(--teacher-border);
         border-radius: 1.35rem;
         background: linear-gradient(105deg,var(--teacher-surface),var(--teacher-tint));
+        @media (max-width:767px) {
+            grid-template-columns: 140px minmax(0,1fr);
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        @media (max-width:480px) {
+            grid-template-columns: 1fr;
+        }
+
     }
 
     .local-teacher-profile-photo {
@@ -1053,6 +1163,14 @@
         overflow: hidden;
         border-radius: 1rem;
         background: var(--teacher-tint);
+        @media (max-width:767px) {
+            max-width: 140px;
+        }
+
+        @media (max-width:480px) {
+            width: 135px;
+        }
+
     }
 
     .local-teacher-profile-avatar {
@@ -1061,6 +1179,10 @@
         height: 225px;
         object-fit: cover;
         border-radius: 0;
+        @media (max-width:767px) {
+            height: 160px;
+        }
+
     }
 
     .local-teacher-profile-heading {
@@ -1072,6 +1194,7 @@
             letter-spacing: -.04em;
             line-height: 1.14;
         }
+
     }
 
     .local-teacher-profile-subtitle {
@@ -1099,6 +1222,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
     }
 
     .local-teacher-profile-grid {
@@ -1106,6 +1230,10 @@
         grid-template-columns: minmax(0,1.6fr) minmax(300px,1fr);
         align-items: start;
         gap: 1.2rem;
+        @media (max-width:767px) {
+            grid-template-columns: minmax(0,1fr);
+        }
+
     }
 
     .local-teacher-profile-side {
@@ -1125,6 +1253,11 @@
             font-size: 1.18rem;
             font-weight: 800;
         }
+
+        @media (max-width:767px) {
+            padding: 1.2rem;
+        }
+
     }
 
     .local-teacher-bio-content {
@@ -1134,6 +1267,7 @@
             max-width: 100%;
             height: auto;
         }
+
     }
 
     .local-teacher-profile-course-links {
@@ -1156,18 +1290,22 @@
             text-decoration: none;
             font-weight: 650;
         }
+
         a:hover {
             border-color: var(--teacher-accent);
             color: var(--teacher-accent);
         }
+
         a span:first-child {
             min-width: 0;
             overflow-wrap: anywhere;
         }
+
         a span:last-child {
             color: var(--teacher-accent);
             flex: none;
         }
+
     }
 
     .local-teacher-contact {
@@ -1176,118 +1314,17 @@
             font-weight: 650;
             margin-bottom: .45rem;
         }
+
         textarea {
             resize: vertical;
             border-color: var(--teacher-border);
             border-radius: .75rem;
         }
+
         button {
             margin-top: .85rem;
             border-radius: .7rem;
             font-weight: 700;
-        }
-    }
-
-    @media (max-width:1199px) {
-        .local-teacher-grid {
-            grid-template-columns: repeat(2,minmax(0,1fr));
-        }
-
-    }
-
-    @media (max-width:767px) {
-        .local-teacher-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .local-teacher-profile-grid {
-            grid-template-columns: minmax(0,1fr);
-        }
-
-        .local-teacher-profile-header {
-            grid-template-columns: 140px minmax(0,1fr);
-            gap: 1rem;
-            padding: 1rem;
-        }
-
-        .local-teacher-profile-photo {
-            max-width: 140px;
-        }
-
-        .local-teacher-profile-avatar {
-            height: 160px;
-        }
-
-        .local-teacher-section {
-            padding: 1.2rem;
-        }
-
-        .local-teacher-lead-decoration {
-            opacity: .25;
-        }
-
-        .local-teacher-count {
-            flex: 1 1 100%;
-            margin: 0;
-        }
-
-    }
-
-    @media (max-width:480px) {
-        .local-teacher-lead {
-            min-height: 170px;
-            padding: 1.4rem;
-        }
-
-        .local-teacher-filters {
-            flex-basis: 100%;
-        }
-
-        .local-teacher-filter-field {
-            flex-basis: 100%;
-        }
-
-        .local-teacher-apply {
-            width: 100%;
-        }
-
-        .local-teacher-card {
-            grid-template-columns: minmax(0,37%) minmax(0,1fr);
-            gap: .75rem;
-            padding: .65rem;
-            min-height: 208px;
-        }
-
-        .local-teacher-avatar {
-            min-height: 194px;
-        }
-
-        .local-teacher-card-body h3 {
-            font-size: 1.08rem;
-        }
-
-        .local-teacher-card-courses-title {
-            font-size: .72rem;
-        }
-
-        .local-teacher-course-list li {
-            font-size: .71rem;
-            padding: .22rem .55rem;
-        }
-
-        .local-teacher-profile-header {
-            grid-template-columns: 1fr;
-        }
-
-        .local-teacher-profile-photo {
-            width: 135px;
-        }
-
-    }
-
-    @media (prefers-reduced-motion:reduce) {
-        .local-teacher-card {
-            transition: none;
         }
 
     }
@@ -1299,38 +1336,44 @@
     .modal-dialog {
         max-width: min(560px, calc(100vw - 1.5rem));
     }
+
     .modal-content {
         color: var(--bs-ink, var(--bs-body-color, #15243a));
         background: var(--bs-surface, var(--bs-body-bg, #fff));
         border: 1px solid var(--bs-border, var(--bs-border-color, #e2e8f0));
         border-radius: 1rem;
     }
+
     .modal-title {
         font-weight: 750;
     }
+
     .local-teacher-contact-form label {
         display: block;
         margin-bottom: .5rem;
         font-weight: 650;
     }
+
     .local-teacher-contact-form textarea {
         width: 100%;
         min-height: 145px;
         resize: vertical;
         border-radius: .75rem;
     }
+
     .local-teacher-contact-buttons {
         display: flex;
         justify-content: flex-end;
         gap: .7rem;
         flex-wrap: wrap;
         margin-top: 1.15rem;
-    }
-}
+        .btn {
+            @media (max-width: 480px) {
+                flex: 1 1 auto;
+            }
 
-@media (max-width: 480px) {
-    .local-teacher-contact-modal .local-teacher-contact-buttons .btn {
-        flex: 1 1 auto;
+        }
+
     }
 
 }
