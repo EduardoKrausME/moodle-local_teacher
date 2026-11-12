@@ -262,22 +262,75 @@
     }
 
     .local-teacher-cv-stats {
+        position: relative;
+        z-index: 1;
         display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: .65rem 1.4rem;
-        margin: 1.25rem 0 0;
-        padding: 0 0 1.1rem;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        gap: .9rem;
+        min-width: 0;
+        margin: 0;
+        padding: 1.1rem;
+        border: 1px solid var(--teacher-border);
+        border-radius: 1.05rem;
+        background: color-mix(in srgb, var(--teacher-surface) 88%, transparent);
+        box-shadow: 0 8px 22px rgba(20, 38, 62, .05);
+
+        > div:first-child {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+        }
+
+        .local-teacher-cv-heading-row {
+            width: 100%;
+            padding-top: .85rem;
+            border-top: 1px solid var(--teacher-border);
+        }
+
+        .local-teacher-cv-actions {
+            width: 100%;
+            gap: .55rem;
+
+            .btn {
+                flex: 1 1 auto;
+                min-width: 0;
+                min-height: 40px;
+                padding: .55rem .75rem;
+                font-size: .85rem;
+                text-align: center;
+                white-space: normal;
+            }
+        }
+
+        @media (max-width: 480px) {
+            padding: .9rem;
+
+            .local-teacher-cv-actions {
+                flex-direction: column;
+                align-items: stretch;
+
+                .btn {
+                    width: 100%;
+                }
+            }
+        }
     }
 
     .local-teacher-cv-stat {
         display: flex;
         align-items: center;
-        gap: .5rem;
+        gap: .55rem;
+        min-width: 0;
         font-size: .9rem;
         font-weight: 700;
+        line-height: 1.45;
         color: var(--teacher-ink);
+
+        span {
+            overflow-wrap: anywhere;
+        }
     }
 
     .local-teacher-cv-biography {
@@ -523,6 +576,18 @@
             line-height: 1.55;
         }
 
+    }
+
+    // The profile header now contains the stats and action buttons.
+    .local-teacher-profile .local-teacher-lead {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 390px);
+        align-items: center;
+        gap: clamp(1.2rem, 3vw, 2.4rem);
+
+        @media (max-width: 991px) {
+            grid-template-columns: minmax(0, 1fr);
+        }
     }
 
     .local-teacher-lead-content {
