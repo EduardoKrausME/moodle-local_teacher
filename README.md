@@ -1,165 +1,153 @@
-# Teachers - Diretório de professores para Moodle
+# Teachers for Moodle
 
-O **Teachers** (`local_teacher`) cria uma página de apresentação da equipe docente usando os usuários, papéis e cursos que já existem no Moodle. Professores aparecem automaticamente no diretório quando possuem um dos papéis configurados atribuído diretamente em um curso visível, sem cadastro paralelo, importação de dados ou tarefa de sincronização.
+**Teachers** (`local_teacher`) adds a searchable directory of teaching staff to Moodle. It uses existing Moodle accounts, course role assignments and profile information, so there is no separate teacher database to maintain and no scheduled synchronisation to configure.
 
-O visitante pode pesquisar professores, conhecer seus perfis e explorar os cursos em que atuam. A administração controla quais papéis identificam professores, quem pode acessar o diretório, a disponibilidade das mensagens e quais pessoas devem ficar fora da listagem.
+Visitors can browse teacher cards, open detailed profiles and discover the courses each teacher delivers. Site administrators choose which roles count as teachers, control access to the directory and can hide individual teachers without affecting their courses or enrolments.
 
-**Idiomas:** [Português](#português) | [English](#english)
+## Features
 
-## Português
+- **Automatic teacher discovery.** Teachers are identified through selected roles assigned directly at course level.
+- **Searchable directory.** Search by first name, last name or full name, with paginated results and teacher profile pictures.
+- **Individual teacher profiles.** Display a biography, optional curriculum details and the courses associated with each teacher.
+- **Course showcase.** Show course overview images, titles and short descriptions, linking directly to the corresponding Moodle courses.
+- **Native profile fields.** Store graduation date and LinkedIn URL using Moodle's custom user profile fields.
+- **Private messaging.** Allow signed-in users to contact teachers using Moodle's own messaging system, subject to its permissions and blocking rules.
+- **Administrative exclusions.** Hide or restore a teacher in the directory without changing the user's roles, enrolments or account.
+- **Integrated navigation.** Add a Teachers link to Moodle's primary navigation when the directory is enabled and accessible.
+- **Responsive interface.** Mustache templates and responsive styles, with English and Brazilian Portuguese language strings.
 
-### O que o plugin oferece
+## How teacher discovery works
 
-- **Diretório automático:** lista professores a partir das atribuições de papel já existentes nos cursos, com foto, nome e até três cursos no cartão.
-- **Busca e paginação:** pesquisa por nome ou sobrenome, com 18 professores por página.
-- **Perfil individual:** exibe fotografia, biografia cadastrada no perfil do Moodle e todos os cursos visíveis em que o professor atua.
-- **Apresentação dos cursos:** usa imagem de apresentação, nome e resumo do próprio curso, com links para as páginas nativas do Moodle.
-- **Informações de currículo:** utiliza campos personalizados nativos para registrar data de formatura e endereço do LinkedIn. O tempo exibido é calculado *desde a formatura*, e não como tempo comprovado de experiência docente.
-- **Contato pelo Moodle:** permite enviar uma mensagem privada diretamente do perfil, quando habilitado e autorizado pelas regras de mensageria.
-- **Controle de visibilidade:** administradores podem ocultar ou restaurar professores no diretório sem remover seus papéis, cursos ou matrículas.
-- **Navegação integrada:** adiciona um acesso ao diretório na navegação principal quando a funcionalidade está habilitada e as condições de acesso permitem.
+The directory is generated from Moodle's existing data. A user appears when all of the following conditions are met:
 
-A interface usa templates Mustache e estilos responsivos, e está disponível em português do Brasil e inglês.
+1. The user has one of the **configured teacher roles assigned directly in a course context**.
+2. At least one course with that role assignment is visible.
+3. The user account is confirmed, active, and neither suspended nor deleted.
+4. The user has not been excluded from the directory by a site administrator.
 
-### Quem aparece no diretório?
+A role assigned only at system or course-category level does **not** qualify a user for the directory. Users meeting the criteria appear once, even when they teach multiple courses.
 
-Para ser listado, o usuário precisa ter **um dos papéis selecionados na configuração atribuído diretamente no contexto de um curso visível**. Além disso, sua conta precisa estar confirmada, ativa e não excluída do Moodle, e o administrador não pode tê-lo ocultado manualmente do diretório.
+For example, a teacher assigned to three visible courses appears as one person in the directory, with links to those courses on their profile. If their qualifying courses become hidden, they are no longer listed.
 
-Uma atribuição de papel apenas no contexto do sistema ou de uma categoria não basta. O plugin não cria um cadastro próprio de professores e não inclui automaticamente todo usuário que tenha a palavra "professor" no nome do papel.
+No background synchronisation is required: the directory reads role assignments and course visibility from Moodle when the pages are requested.
 
-Exemplo: se Maria possui o papel configurado em dois cursos visíveis, ela aparece uma única vez no diretório, e seu perfil apresenta os dois cursos. Se todos os cursos que a qualificam forem ocultados, ela deixa de aparecer.
+## Installation
 
-### Instalação
+Install the plugin in your Moodle site's `local/teacher` directory.
 
-Coloque o código na pasta `local/teacher` da instalação do Moodle. A partir da raiz do Moodle:
-
-```bash
-git clone https://github.com/EduardoKrausME/moodle-local_teacher.git local/teacher
-php admin/cli/upgrade.php --non-interactive
-```
-
-Também é possível instalar o ZIP pela interface de administração de plugins. Nesse caso, o diretório final precisa ser `local/teacher`, e o componente identificado pelo Moodle é `local_teacher`.
-
-Na primeira instalação, o plugin cria uma categoria de campos de perfil chamada **Currículo**, com dois campos opcionais: **Formatura** e **LinkedIn**. Eles fazem parte do sistema nativo de perfis do Moodle, não de um banco de currículos separado.
-
-### Configuração
-
-Acesse **Administração do site > Plugins > Plugins locais > Professores**. As opções disponíveis são:
-
-| Configuração | Comportamento |
-| --- | --- |
-| Ativar diretório de professores | Habilita ou desabilita as páginas do diretório. Ativado por padrão. |
-| Papéis considerados como professores | Define quais papéis atribuídos diretamente em cursos visíveis identificam os professores. Por padrão, o ID do papel selecionado é `3`; confira o papel correspondente na sua instalação. |
-| Permitir acesso sem login | Permite que visitantes visualizem a listagem e os perfis. Desativado por padrão. |
-| Ativar caixa de mensagens | Exibe o contato por mensagem privada para usuários autorizados. Ativado por padrão. |
-
-Na opção administrativa **Professores excluídos da listagem**, pesquise um professor e clique em **Ocultar**. Ele desaparece imediatamente tanto da listagem quanto da página individual do diretório, mas continua com seu perfil, seus cursos e suas permissões originais no Moodle. Use **Restaurar** para voltar a exibi-lo.
-
-### Como usar
-
-O diretório fica disponível em:
-
-```text
-https://seu-moodle.example/local/teacher/
-```
-
-A pesquisa utiliza o campo de busca da própria página e aceita partes do nome ou sobrenome. Ao selecionar um professor, o visitante acessa uma URL individual que combina o ID do usuário com uma versão legível do seu nome, por exemplo:
-
-```text
-/local/teacher/view.php/42-maria-silva
-```
-
-O ID mantém o endereço inequívoco mesmo quando dois professores têm o mesmo nome. Endereços antigos baseados no ID ou no nome também são reconhecidos nos formatos previstos pelo plugin.
-
-Para completar o próprio perfil, o professor pode editar sua **Descrição** e sua **Foto do usuário** no Moodle, além dos campos **Formatura** e **LinkedIn** na seção **Currículo**. Os campos de currículo só aparecem no diretório quando estão configurados como públicos; o LinkedIn deve apontar para um endereço HTTPS válido no domínio `linkedin.com`.
-
-As imagens e os resumos dos cursos vêm das configurações dos próprios cursos. O diretório não altera as regras de inscrição ou de acesso: um visitante pode ver um curso listado e, mesmo assim, precisar se autenticar ou se matricular para acessá-lo.
-
-### Acesso, mensagens e privacidade
-
-O acesso de usuários autenticados exige a capacidade `local/teacher:view` no contexto do sistema. O acesso sem login depende da configuração específica para visitantes, que vem desativada por padrão. **Antes de tornar o diretório público, revise quais nomes, fotografias, biografias e cursos poderão ficar visíveis sem autenticação.**
-
-O botão de mensagem aparece somente para usuários autenticados, quando o contato estiver habilitado e o Moodle permitir a comunicação com aquele professor. Não é possível enviar mensagens a si próprio pelo formulário. O envio usa a mensageria nativa do Moodle, exige chave de sessão válida, aceita até 2.000 caracteres em texto simples e limita envios sucessivos pela mesma sessão a um intervalo mínimo de 30 segundos.
-
-O plugin não duplica os registros de usuários nem de cursos. Sua tabela própria, `local_teacher_excluded`, armazena apenas os IDs dos professores ocultados e a data de exclusão da listagem; esses registros são contemplados pelo provedor de privacidade do Moodle. Os dados de biografia e currículo continuam no perfil nativo do usuário.
-
-### Se um professor não aparecer
-
-Verifique se o diretório está habilitado, se o papel correto está selecionado, se esse papel foi atribuído **no próprio curso**, se há ao menos um curso visível e se a conta está ativa e confirmada. Confira também a lista de professores ocultados. Quando o botão de mensagem não aparece, verifique o login, a opção de contato e as permissões ou bloqueios da mensageria do Moodle.
-
-### Licença
-
-Distribuído sob a [GNU GPL v3 ou posterior](LICENSE). Desenvolvido por [Eduardo Kraus](https://eduardokraus.com).
-
----
-
-## English
-
-**Teachers** (`local_teacher`) provides a searchable teaching-staff directory based on Moodle's existing users, course role assignments and profiles. Teachers are discovered dynamically; there is no separate teacher registry and no scheduled synchronisation.
-
-### Features
-
-- **Automatic discovery:** lists users with selected roles assigned directly in visible courses, excluding deleted, suspended, unconfirmed and manually hidden users.
-- **Search and pagination:** search first names, last names or full names, with 18 teachers per page.
-- **Teacher cards and profiles:** display profile pictures, biographies, teaching assignments and links to visible courses.
-- **Course presentation:** show course overview images and short descriptions taken from Moodle's native course settings.
-- **Curriculum fields:** optional graduation date and LinkedIn profile, stored as native custom user profile fields. The displayed number of years is **time since graduation**, not verified teaching experience.
-- **Private messages:** authenticated users can contact a teacher through Moodle messaging when permitted.
-- **Administrative exclusions:** hide or restore teachers in the directory without changing their enrolments, roles or courses.
-- **Primary navigation:** provides a directory link when enabled and accessible.
-
-The interface uses responsive styles and Mustache templates, with English and Brazilian Portuguese translations.
-
-### Installation
-
-Install the repository into `local/teacher` within your Moodle installation. From the Moodle root:
+From the Moodle installation root:
 
 ```bash
 git clone https://github.com/EduardoKrausME/moodle-local_teacher.git local/teacher
 php admin/cli/upgrade.php --non-interactive
 ```
 
-You can also upload a plugin ZIP through Moodle's plugin installer. The plugin component is `local_teacher`.
+Alternatively, upload the plugin ZIP through Moodle's plugin installer and complete the installation from Site administration.
 
-On initial installation, the plugin adds a **Curriculum** category with two optional Moodle custom profile fields: **Graduation** (date) and **LinkedIn** (text). Existing Moodle profile data remains in Moodle.
+The plugin's component name is `local_teacher`. On first installation, it creates a **Curriculum** category containing two optional native user profile fields:
 
-### Settings
+- **Graduation:** a date used to calculate the number of complete years since graduation.
+- **LinkedIn:** an optional link to a teacher's LinkedIn profile.
+
+These fields are stored in Moodle's standard custom profile field tables, not in a separate plugin-managed curriculum database.
+
+## Configuration
 
 Go to **Site administration > Plugins > Local plugins > Teachers**.
 
-| Setting | Purpose |
-| --- | --- |
-| Enable teacher directory | Enables the directory pages. On by default. |
-| Teacher roles | Selects roles used to identify teachers through **direct course-level assignments**. Role ID `3` is selected by default; verify which role that represents on your site. |
-| Allow visitors without an account | Enables access to the listing and profiles without signing in. Off by default. |
-| Enable contact form | Allows eligible signed-in users to send private messages to teachers. On by default. |
+| Setting | Description | Default |
+| --- | --- | --- |
+| Enable teacher directory | Enables or disables the directory and teacher profile pages. | Enabled |
+| Teacher roles | Selects which course-level role assignments identify teachers. | Role ID `3` |
+| Allow visitors without an account | Makes the directory and its teacher profiles accessible without signing in. | Disabled |
+| Enable contact form | Allows eligible signed-in users to send private messages to teachers. | Enabled |
 
-The separate **Excluded teachers** administration page lets you search for teachers, hide them from the directory and later restore them. Exclusion does not modify their Moodle roles, enrolments or user accounts.
+The default role selection uses ID `3`. Check the roles on your own site rather than assuming that a particular role always has the same ID.
 
-### Finding and updating profiles
+### Hide individual teachers
 
-Open the directory at:
+Open **Site administration > Plugins > Local plugins > Excluded teachers** (the exact menu labels depend on the active language pack).
+
+Search for a teacher and select **Exclude** to remove them from the directory immediately. Their Moodle profile, courses, role assignments and enrolments remain unchanged. Select **Restore** to include them again.
+
+An excluded teacher cannot be opened through the plugin's individual profile page, even when somebody knows the URL.
+
+## Using the directory
+
+The directory is available at:
 
 ```text
 https://your-moodle.example/local/teacher/
 ```
 
-Selecting a teacher opens a readable, ID-based profile URL such as `/local/teacher/view.php/42-maria-silva`. The ID avoids name collisions, and supported older links continue to resolve.
+The page displays teacher cards with photographs, names and up to three course names. Search results are paginated at 18 teachers per page.
 
-Teachers can edit their photo, biography and the optional curriculum fields through their normal Moodle profile, subject to their existing permissions. LinkedIn links must use HTTPS and the `linkedin.com` domain; curriculum data is displayed only when its profile field is public. The directory displays course images and descriptions without overriding Moodle's course access or enrolment rules.
+Selecting a card opens a teacher profile, with a readable URL combining the Moodle user ID and a name-based slug:
 
-### Permissions, messaging and privacy
+```text
+https://your-moodle.example/local/teacher/view.php/42-jane-smith
+```
 
-Signed-in visitors need the system-level `local/teacher:view` capability. Anonymous access is controlled separately and is disabled by default. If anonymous access is enabled, names, photos, biographies and information about visible courses may become accessible without authentication.
+The ID keeps URLs unambiguous when two teachers share a name. The plugin also recognises supported older link formats and redirects to the canonical profile URL where appropriate.
 
-The contact form requires a signed-in user, an enabled contact setting and permission to message the teacher according to Moodle's messaging API. It uses session-key validation, plain-text messages of at most 2,000 characters and a 30-second per-session send interval.
+### Completing a teacher profile
 
-The plugin stores no duplicate user or course profiles. Its own `local_teacher_excluded` table holds only manually excluded user IDs and exclusion timestamps, with support for Moodle's privacy export and deletion requests.
+Teachers maintain their information through their normal Moodle user profile, subject to existing profile-editing permissions:
 
-### Troubleshooting
+- **Profile picture:** displayed in the directory and on the teacher's page.
+- **Description:** used as the teacher biography.
+- **Graduation:** used to display elapsed years since graduation, *not* verified years of teaching experience.
+- **LinkedIn:** shown as an external link when the custom field is public and contains a valid HTTPS URL on `linkedin.com`.
 
-If a teacher is missing, check the configured role IDs, **direct role assignments in visible courses**, account status and administrative exclusions. Assigning a role only at system or category level does not qualify a user. If messaging is unavailable, verify the contact setting, authentication and Moodle's messaging permissions or blocks.
+The profile also shows the teacher's visible courses, including overview images and descriptions from those courses' settings. Course links do not bypass Moodle's normal authentication, enrolment or access restrictions.
 
-### License
+## Access, messaging and privacy
 
-Licensed under the [GNU GPL v3 or later](LICENSE). Developed by [Eduardo Kraus](https://eduardokraus.com).
+### Directory access
+
+Authenticated users must have the system-level capability `local/teacher:view` to view the directory. Anonymous visitors can access it only when **Allow visitors without an account** is enabled.
+
+**Public access exposes teacher information.** When anonymous access is enabled, visitors may see teacher names, profile pictures, biographies, curriculum information marked public, and details of visible courses. Review your organisation's privacy requirements before enabling it.
+
+### Contacting a teacher
+
+The contact action is available only when the contact setting is enabled, the visitor is signed in, the recipient is another user, and Moodle's messaging API permits the message.
+
+Messages are sent through Moodle's native private messaging functionality. The form:
+
+- Uses Moodle's session-key verification.
+- Sends plain-text messages with a maximum of 2,000 characters.
+- Enforces a minimum 30-second interval between submissions in the same user session.
+- Respects Moodle's messaging permissions and user blocking rules.
+
+The plugin does not implement a separate inbox or message delivery system.
+
+### Stored data
+
+Teacher biographies, photographs, curriculum fields and course information remain in Moodle's native tables. The plugin maintains one dedicated table, `local_teacher_excluded`, which records the user IDs and timestamps of manual directory exclusions.
+
+The plugin includes a Moodle Privacy API provider for exporting and deleting those exclusion records in response to privacy requests.
+
+## Troubleshooting
+
+**A teacher is missing from the directory.** Check that the selected teacher role is assigned directly in at least one visible course, the account is confirmed and not suspended, and the teacher is not on the exclusion list. A role assigned only at site or category level is not sufficient.
+
+**The directory is not accessible.** Confirm that the directory is enabled, the visitor access setting is appropriate, and the user's role has the `local/teacher:view` capability where required.
+
+**The contact button is not shown.** Confirm that contact is enabled and the visitor is signed in, then check Moodle's messaging permissions, privacy settings and user blocking restrictions.
+
+**Curriculum information does not appear.** Make sure the optional profile fields have values and their visibility is set to public. Only valid LinkedIn URLs are displayed.
+
+## Development
+
+The plugin uses Moodle's role assignments, user profiles, course metadata, navigation hooks, messaging API and privacy API. The directory is rendered with Mustache templates and uses a small AMD module for the contact dialog.
+
+Automated PHPUnit coverage is included for teacher discovery, exclusions, profile URLs and curriculum fields. The repository also provides a GitHub Actions workflow for plugin validation and testing.
+
+Issues and contributions: [GitHub repository](https://github.com/EduardoKrausME/moodle-local_teacher).
+
+## License
+
+Copyright © 2026 [Eduardo Kraus](https://eduardokraus.com).
+
+Licensed under the [GNU General Public License, version 3 or later](LICENSE).
